@@ -65,13 +65,19 @@ Example:
 for Windows
 
 ```
-
+runmeEGO.bat
 ```
 
-for Mac and Linux
+for MacOS
 
 ```
+./runmeEGO.command
+```
 
+and for Linux
+
+```
+sh runmeEGO.sh
 ```
 
 ## Project Structure
