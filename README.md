@@ -62,22 +62,22 @@ Example:
 
 ## Running Batch file for experiments
 
-for Windows
-
-```
-runmeEGO.bat
-```
-
 for MacOS
 
 ```
 ./runmeEGO.command
 ```
 
-and for Linux
+for Linux
 
 ```
 sh runmeEGO.sh
+```
+
+and for Windows
+
+```
+runmeEGO.bat
 ```
 
 ## Project Structure
