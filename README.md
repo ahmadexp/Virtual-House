@@ -11,7 +11,7 @@ A 3D simulation environment built with C++ and OpenGL to study the cognitive spa
 | Platform | Dependencies | Install Command |
 |----------|--------------|-----------------|
 | **macOS** | `meson`, `ninja`, `glfw` | `brew install meson ninja glfw Pkg-config` |
-| **Linux** | `meson`, `ninja`, `libx11-dev`, `libgl1-mesa-dev` | `sudo apt-get install meson ninja-build libx11-dev libgl1-mesa-dev pkg-config` |
+| **Linux** | `meson`, `ninja`, `libx11-dev`, `libgl1-mesa-dev` | `sudo apt-get install meson ninja-build libx11-dev libgl1-mesa-dev pkg-config libglu1-mesa-dev` |
 | **Windows**| `meson`, `ninja`, `Visual Studio` | `pip install meson ninja` |
 
 ### Building the Project
