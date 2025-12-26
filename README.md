@@ -37,6 +37,21 @@ To run the application, executing the binary from the project root:
 - `/TESTMODE`: Enable automated test mode.
 - `/AUTOEXIT`: Automatically exit after the simulation completes.
 - `/USEMOUSE`: Enable free-look camera with the mouse.
+- `/AUTOEXIT`: Exits the game after reaching the goal.
+- `/USEJOYSTICK`: Enable joystick input.
+- `/TRIAL`: Allows to enter trial number.
+- `/LATENCY`: Adds input latency.
+- `/ALLOCENTRIC`: Enables 3rd person view where you can see the player.
+- `/JOYANGVEL`: Sets Joystick rotation velocity.
+- `/JOYTRANSVEL`: Sets joysticks traversion velocity.
+- `/LANGUAGE`: Sets langugae.
+- `/INOUTRATIO`: In vs Out ratio.
+- `/KIDMODE`: Kid mode.
+- `/ANIMSOUND`: Animal sound.
+- `/PERPSTAIR`: Proper Stairs vs Ramp.
+- `/LOGTOTAL`: Logging everything.
+- `/NOTEXTURE`: Avoid using texture.
+- `/TURNDURATION`: Set turning about the house velocity.
 
 Example:
 ```bash
