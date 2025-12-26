@@ -60,6 +60,20 @@ Example:
 ./build/virtualhouse /USEMOUSE /NOINFO
 ```
 
+## Running Batch file for experiments
+
+for Windows
+
+```
+
+```
+
+for Mac and Linux
+
+```
+
+```
+
 ## Project Structure
 
 - `src/`: Main application source code (`start.cpp`).
