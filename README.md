@@ -1,6 +1,6 @@
 # Virtual House
 
-A 3D simulation environment built with C++ and OpenGL. This project has been modernized to support cross-platform builds on macOS, Linux, and Windows using the Meson build system.
+A 3D simulation environment built with C++ and OpenGL to study the cognitive spacial navigation ability of the player. This was part of my Ph.D. thesis. This project has been modernized to support cross-platform builds on macOS, Linux, and Windows using the Meson build system.
 
 <img width="1283" height="751" alt="Screenshot 2025-12-25 at 4 13 14 PM" src="https://github.com/user-attachments/assets/55927c34-e428-4f78-9b9f-61f12a81d813" />
 
