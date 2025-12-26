@@ -10,7 +10,7 @@ A 3D simulation environment built with C++ and OpenGL. This project has been mod
 
 | Platform | Dependencies | Install Command |
 |----------|--------------|-----------------|
-| **macOS** | `meson`, `ninja`, `glfw` | `brew install meson ninja glfw` |
+| **macOS** | `meson`, `ninja`, `glfw` | `brew install meson ninja glfw Pkg-config` |
 | **Linux** | `meson`, `ninja`, `libx11-dev`, `libgl1-mesa-dev` | `sudo apt-get install meson ninja-build libx11-dev libgl1-mesa-dev` |
 | **Windows**| `meson`, `ninja`, `Visual Studio` | `pip install meson ninja` |
 
