@@ -63,8 +63,13 @@ GLuint loadtga(char* filename,bool mipmap){
 			0,GL_BGRA,GL_UNSIGNED_BYTE,pPixels);
 	}
 
+	printf("DEBUG: loadtga() - about to delete[] pPixels\n");
+	fflush(stdout);
 	delete [] pPixels;
+	printf("DEBUG: loadtga() - delete[] pPixels succeeded\n");
+	fflush(stdout);
 
 	return texName;
+
 
 }

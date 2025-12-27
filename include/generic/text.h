@@ -17,6 +17,8 @@ void setuptext(){
 	fflush(stdout);
 	
 	for(int y=0; y<6; y++)for(int x=0; x<16; x++){//setup the pixel positions
+		// printf("DEBUG: setuptext() - loop y=%d x=%d index=%d\n", y, x, 16*y+x);
+		// fflush(stdout); 
 		fonttexturecoords[16*y+x][0]=x*32+1;
 		fonttexturecoords[16*y+x][1]=y*42+42-1;
 		fonttexturecoords[16*y+x][2]=x*32+32-1;
@@ -26,6 +28,8 @@ void setuptext(){
 		fonttexturecoords[16*y+x][6]=x*32+1;
 		fonttexturecoords[16*y+x][7]=y*42+1;
 	}
+	printf("DEBUG: setuptext() - first loop done\n");
+	fflush(stdout);
 	for(int a=0; a<96; a++){//scale it for the texture and flip it
 		fonttexturecoords[a][0]/=512;
 		fonttexturecoords[a][1]/=-256;
