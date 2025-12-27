@@ -18,7 +18,7 @@ public:
 };
 
 // mapping to X keyboard values
-static unsigned char sKeyboardMap[256] =
+static KeySym sKeyboardMap[256] =
 {
 	XK_A,			//Channel_Key_A,
 	XK_B,			//Channel_Key_B,
