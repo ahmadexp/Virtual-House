@@ -5,8 +5,8 @@
 #include <sys/paths.h>
 #endif
 
-// Forward declare strcpy to avoid macOS C++ header conflicts
-extern "C" char* strcpy(char*, const char*);
+// Include cstring for strcpy
+#include <cstring>
 
 #define FWSTARTUPINFO_DEFAULT_NUMRAWSPUS	3
 #define FWSTARTUPINFO_DEFAULT_USEDEBUGCONSOLE	true

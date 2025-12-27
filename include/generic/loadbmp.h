@@ -46,7 +46,7 @@ GLuint loadbmp(char* filename,bool mipmap){
 	fp = fopen(filename,"rb");  // FIXED: use "rb" for binary mode!
 
 	if(fp==NULL)    //ahmad
-		return NULL;     //ahmad
+		return 0;     //ahmad
 
 	fread(&Type,sizeof(uint16_t),1,fp);
 	fread(&Size,sizeof(uint32_t),1,fp);
