@@ -22,7 +22,11 @@ void FWInput::platformUpdate()
 // ----------------------------------------------------------------------------
 // FWInputDeviceMouse
 // ----------------------------------------------------------------------------
-// Constructor/Destructor/getType are already implemented in FWInput.cpp
+// Constructor/Destructor/getType are already implemented in FWInput.cpp... EXCEPT the destructor apparently?
+// The linker didn't complain about duplicate destructors, so we must implement them here.
+FWInputDeviceMouse::~FWInputDeviceMouse()
+{
+}
 
 void FWInputDeviceMouse::update()
 {
@@ -33,7 +37,10 @@ void FWInputDeviceMouse::update()
 // ----------------------------------------------------------------------------
 // FWInputDeviceKeyboard
 // ----------------------------------------------------------------------------
-// Constructor/Destructor/getType are already implemented in FWInput.cpp
+// Constructor/Destructor/getType are already implemented in FWInput.cpp... EXCEPT the destructor.
+FWInputDeviceKeyboard::~FWInputDeviceKeyboard()
+{
+}
 
 void FWInputDeviceKeyboard::update()
 {
@@ -44,7 +51,10 @@ void FWInputDeviceKeyboard::update()
 // ----------------------------------------------------------------------------
 // FWInputDevicePad
 // ----------------------------------------------------------------------------
-// Constructor/Destructor/getType are already implemented in FWInput.cpp
+// Constructor/Destructor/getType are already implemented in FWInput.cpp... EXCEPT the destructor.
+FWInputDevicePad::~FWInputDevicePad()
+{
+}
 
 void FWInputDevicePad::update()
 {
