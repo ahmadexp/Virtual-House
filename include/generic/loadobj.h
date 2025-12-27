@@ -26,35 +26,47 @@ void loadobj(char* filename,float*& vertexarray,float*& texturearray,float*& nor
 	char temptext[500];
 	while(fscanf(fp, "%499s", temptext) == 1){
 		if(strlen(temptext)==2 && temptext[0]=='v' && temptext[1]=='n'){
-			fscanf(fp, "%f", &loadednormal[normalcount][0]);
-			fscanf(fp, "%f", &loadednormal[normalcount][1]);
-			fscanf(fp, "%f", &loadednormal[normalcount][2]);
-			normalcount++;
+			if(normalcount < maxnormalcount){
+				fscanf(fp, "%f", &loadednormal[normalcount][0]);
+				fscanf(fp, "%f", &loadednormal[normalcount][1]);
+				fscanf(fp, "%f", &loadednormal[normalcount][2]);
+				normalcount++;
+			}
 		}else if(strlen(temptext)==2 && temptext[0]=='v' && temptext[1]=='t'){
-			fscanf(fp, "%f", &loadedtexture[texturecount][0]);
-			fscanf(fp, "%f", &loadedtexture[texturecount][1]);
-			texturecount++;
+			if(texturecount < maxtexturecount){
+				fscanf(fp, "%f", &loadedtexture[texturecount][0]);
+				fscanf(fp, "%f", &loadedtexture[texturecount][1]);
+				texturecount++;
+			}
 		}else if(strlen(temptext)==1 && temptext[0]=='v'){
-			fscanf(fp, "%f", &loadedvertex[vertexcount][0]);
-			fscanf(fp, "%f", &loadedvertex[vertexcount][1]);
-			fscanf(fp, "%f", &loadedvertex[vertexcount][2]);
-			vertexcount++;
+			if(vertexcount < maxvertexcount){
+				fscanf(fp, "%f", &loadedvertex[vertexcount][0]);
+				fscanf(fp, "%f", &loadedvertex[vertexcount][1]);
+				fscanf(fp, "%f", &loadedvertex[vertexcount][2]);
+				vertexcount++;
+			}
 		}else if(strlen(temptext)==1 && temptext[0]=='f'){
-			fscanf(fp, "%499s", temptext); // Read first vertex/uv/normal index group
-			loadedface[facecount][0] = atoi(strtok(temptext,"/"))-1;
-			loadedface[facecount][3] = atoi(strtok(NULL,"/"))-1;
-			loadedface[facecount][6] = atoi(strtok(NULL,"/"))-1;
-			
-			fscanf(fp, "%499s", temptext); // Read second group
-			loadedface[facecount][1] = atoi(strtok(temptext,"/"))-1;
-			loadedface[facecount][4] = atoi(strtok(NULL,"/"))-1;
-			loadedface[facecount][7] = atoi(strtok(NULL,"/"))-1;
-			
-			fscanf(fp, "%499s", temptext); // Read third group
-			loadedface[facecount][2] = atoi(strtok(temptext,"/"))-1;
-			loadedface[facecount][5] = atoi(strtok(NULL,"/"))-1;
-			loadedface[facecount][8] = atoi(strtok(NULL,"/"))-1;
-			facecount++;
+			if(facecount < maxfacecount){
+				fscanf(fp, "%499s", temptext); // Read first vertex/uv/normal index group
+				loadedface[facecount][0] = atoi(strtok(temptext,"/"))-1;
+				loadedface[facecount][3] = atoi(strtok(NULL,"/"))-1;
+				loadedface[facecount][6] = atoi(strtok(NULL,"/"))-1;
+				
+				fscanf(fp, "%499s", temptext); // Read second group
+				loadedface[facecount][1] = atoi(strtok(temptext,"/"))-1;
+				loadedface[facecount][4] = atoi(strtok(NULL,"/"))-1;
+				loadedface[facecount][7] = atoi(strtok(NULL,"/"))-1;
+				
+				fscanf(fp, "%499s", temptext); // Read third group
+				loadedface[facecount][2] = atoi(strtok(temptext,"/"))-1;
+				loadedface[facecount][5] = atoi(strtok(NULL,"/"))-1;
+				loadedface[facecount][8] = atoi(strtok(NULL,"/"))-1;
+				facecount++;
+			} else {
+				fscanf(fp, "%499s", temptext);
+				fscanf(fp, "%499s", temptext);
+				fscanf(fp, "%499s", temptext);
+			}
 		}
 	}
 	fclose(fp);
