@@ -4,11 +4,8 @@
 #include <sys/paths.h>
 #endif
 
-// Forward declare string functions to avoid macOS C++ header conflicts
-extern "C" {
-void* memset(void*, int, unsigned long);
-char* strchr(const char*, int);
-}
+// Include cstring for memset/strchr
+#include <cstring>
 
 #include "FWWindow.h"
 #include "FWApplication.h"
