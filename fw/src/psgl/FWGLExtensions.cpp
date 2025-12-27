@@ -4,6 +4,12 @@
 
 #ifndef GL_VERSION_1_2
 
+
+void FWGLExtension::reportError(char *name)
+{
+	fprintf(stderr, "Error: GL Extension %s not found\n", name);
+}
+
 void APIENTRY FWGLExtension::initCopyTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height)
 {
 	spCopyTexSubImage3D = (PFNGLCOPYTEXSUBIMAGE3D)FW_GETGLPROC("glCopyTexSubImage3D");
