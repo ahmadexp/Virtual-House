@@ -5,9 +5,6 @@
 #include <sys/paths.h>
 #endif
 
-// Include cstring for strcpy
-#include <cstring>
-
 #define FWSTARTUPINFO_DEFAULT_NUMRAWSPUS	3
 #define FWSTARTUPINFO_DEFAULT_USEDEBUGCONSOLE	true
 #define FWSTARTUPINFO_DEFAULT_WINDOWTITLE	"Sample Framework"
@@ -25,13 +22,7 @@ public:
 	// Returns:
 	// Notes: 
 	//-----------------------------------------------------------------------------
-	inline FWStartupInfo() :
-	mNumRawSPUs(FWSTARTUPINFO_DEFAULT_NUMRAWSPUS),
-	mUseDebugConsole(FWSTARTUPINFO_DEFAULT_USEDEBUGCONSOLE)
-	{
-		strcpy(mWindowTitle, FWSTARTUPINFO_DEFAULT_WINDOWTITLE);
-		strcpy(mArgumentsFilename, FWSTARTUPINFO_DEFAULT_ARGUMENTSFILENAME);
-	}
+	FWStartupInfo();
 
 	//-----------------------------------------------------------------------------
 	// Description: Destructor

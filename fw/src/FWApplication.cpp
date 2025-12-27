@@ -1,5 +1,6 @@
 #include "FWApplication.h"
 #include "FWTime.h"
+#include <cstring>
 
 // Static pointer to the application
 FWApplication *FWApplication::spApplication = NULL;
@@ -62,4 +63,16 @@ void FWApplication::onShutdown()
 bool FWApplication::onUpdate()
 {
 	return true;
+}
+
+// ----------------------------------------------------------------------------
+// FWStartupInfo
+// ----------------------------------------------------------------------------
+
+FWStartupInfo::FWStartupInfo() :
+	mNumRawSPUs(FWSTARTUPINFO_DEFAULT_NUMRAWSPUS),
+	mUseDebugConsole(FWSTARTUPINFO_DEFAULT_USEDEBUGCONSOLE)
+{
+	strcpy(mWindowTitle, FWSTARTUPINFO_DEFAULT_WINDOWTITLE);
+	strcpy(mArgumentsFilename, FWSTARTUPINFO_DEFAULT_ARGUMENTSFILENAME);
 }

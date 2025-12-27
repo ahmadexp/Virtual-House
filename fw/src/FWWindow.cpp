@@ -4,8 +4,8 @@
 #include <sys/paths.h>
 #endif
 
-// Include cstring for memset/strchr
-#include <cstring>
+// Include string.h for memset/strchr
+#include <string.h>
 
 #include "FWWindow.h"
 #include "FWApplication.h"
