@@ -24,3 +24,9 @@ void gluPerspective(GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFa
     
     glMultMatrixd(m);
 }
+
+GLint gluBuild2DMipmaps(GLenum target, GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLenum type, const void *data)
+{
+    glTexImage2D(target, 0, internalFormat, width, height, 0, format, type, data);
+    return 0;
+}

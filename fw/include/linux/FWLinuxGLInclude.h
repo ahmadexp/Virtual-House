@@ -11,6 +11,7 @@
 // #include <GL/glu.h>
 void gluPerspective(GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar);
 void gluOrtho2D(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top);
+GLint gluBuild2DMipmaps(GLenum target, GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLenum type, const void *data);
 #include <Cg/cgGL.h>
 
 // OGL extensions supported by PSGL, but not by OGL 1.1
