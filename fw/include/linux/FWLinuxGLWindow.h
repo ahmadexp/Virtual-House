@@ -34,6 +34,11 @@ private:
 	// display info
 	FWLinuxGLDisplayInfo	mDispInfo;
 
+	// GLX Context
+	GLXContext				mContext;
+	// XVisualInfo
+	XVisualInfo				*mpVisual;
+
 };
 
 #endif//__FW_LINUXGLWINDOW_H__
