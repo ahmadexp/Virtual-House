@@ -1,5 +1,6 @@
 
 #include "FWDebug.h"
+#include <cstdio>
 #include "psgl/FWGLInclude.h"
 
 void FWGLExtension::reportError(char *name)
