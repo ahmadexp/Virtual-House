@@ -166,7 +166,7 @@ void FWWindow::parseArgumentsFile(const char *pArgumentsFile)
 {
 #ifdef __CELLOS_LV2__
 	char	fileName[256];
-	sprintf(fileName, "%s/%s", SYS_APP_HOME, pArgumentsFile);
+	snprintf(fileName, sizeof(fileName), "%s/%s", SYS_APP_HOME, pArgumentsFile);
 	
 	FILE	*fp = fopen(fileName, "r");
 #else

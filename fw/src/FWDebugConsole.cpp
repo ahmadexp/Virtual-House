@@ -129,7 +129,7 @@ void FWDebugConsole::printf(const char *pText, ...)
 
 	//build the output string
 	va_start(arglist, pText);
-	vsprintf(tempstr, pText, arglist);
+	vsnprintf(tempstr, sizeof(tempstr), pText, arglist);
 	va_end(arglist);
 
 	print(tempstr);

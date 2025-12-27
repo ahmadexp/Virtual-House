@@ -171,9 +171,9 @@ void FWGLApplication::captureScreen(const char *pFilename)
 				fclose(fp);
 
 #ifdef __CELLOS_LV2__
-			sprintf(filename, SYS_APP_HOME"/screen%04d.tga", i);
+			snprintf(filename, sizeof(filename), SYS_APP_HOME"/screen%04d.tga", i);
 #else
-			sprintf(filename, "screen%04d.tga", i);
+			snprintf(filename, sizeof(filename), "screen%04d.tga", i);
 #endif
 			fp = fopen(filename, "rb");
 			i ++;

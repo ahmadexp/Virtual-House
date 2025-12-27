@@ -78,8 +78,9 @@ TestApp app;
 //-----------------------------------------------------------------------------
 TestApp::TestApp(){
 	// set window title for Win32/Linux
-	char windowtitle[30];
-	sprintf(windowtitle,"%s[Version %.1f]","The Virtual House ",version);
+
+	char windowtitle[64];
+	snprintf(windowtitle, sizeof(windowtitle), "%s[Version %.1f]","The Virtual House ",version);
 	strcpy(mStartupInfo.mWindowTitle, windowtitle);
 	// enable antialiasing
 	mDispInfo.mAntiAlias = false;
