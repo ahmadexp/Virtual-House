@@ -2,13 +2,15 @@
 #include "FWDebug.h"
 #include "psgl/FWGLInclude.h"
 
-#ifndef GL_VERSION_1_2
-
-
 void FWGLExtension::reportError(char *name)
 {
 	fprintf(stderr, "Error: GL Extension %s not found\n", name);
 }
+
+
+#ifndef GL_VERSION_1_2
+
+
 
 void APIENTRY FWGLExtension::initCopyTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height)
 {

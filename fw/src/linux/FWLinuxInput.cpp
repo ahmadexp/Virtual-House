@@ -22,19 +22,7 @@ void FWInput::platformUpdate()
 // ----------------------------------------------------------------------------
 // FWInputDeviceMouse
 // ----------------------------------------------------------------------------
-FWInputDeviceMouse::FWInputDeviceMouse(void *pPlatformData) : FWInputDevice(pPlatformData)
-{
-    mIsClientRelative = false;
-}
-
-FWInputDeviceMouse::~FWInputDeviceMouse()
-{
-}
-
-FWInput::DeviceType FWInputDeviceMouse::getType() const
-{
-    return FWInput::DeviceType_Mouse;
-}
+// Constructor/Destructor/getType are already implemented in FWInput.cpp
 
 void FWInputDeviceMouse::update()
 {
@@ -45,18 +33,7 @@ void FWInputDeviceMouse::update()
 // ----------------------------------------------------------------------------
 // FWInputDeviceKeyboard
 // ----------------------------------------------------------------------------
-FWInputDeviceKeyboard::FWInputDeviceKeyboard(void *pPlatformData) : FWInputDevice(pPlatformData)
-{
-}
-
-FWInputDeviceKeyboard::~FWInputDeviceKeyboard()
-{
-}
-
-FWInput::DeviceType FWInputDeviceKeyboard::getType() const
-{
-    return FWInput::DeviceType_Keyboard;
-}
+// Constructor/Destructor/getType are already implemented in FWInput.cpp
 
 void FWInputDeviceKeyboard::update()
 {
@@ -67,18 +44,7 @@ void FWInputDeviceKeyboard::update()
 // ----------------------------------------------------------------------------
 // FWInputDevicePad
 // ----------------------------------------------------------------------------
-FWInputDevicePad::FWInputDevicePad(void *pPlatformData) : FWInputDevice(pPlatformData)
-{
-}
-
-FWInputDevicePad::~FWInputDevicePad()
-{
-}
-
-FWInput::DeviceType FWInputDevicePad::getType() const
-{
-    return FWInput::DeviceType_Pad;
-}
+// Constructor/Destructor/getType are already implemented in FWInput.cpp
 
 void FWInputDevicePad::update()
 {
