@@ -92,6 +92,8 @@ runmeEGO.bat
 
 - **Legacy audio**: Audio playback uses system commands (`afplay` on macOS) rather than a dedicated audio library.
 - **Cg Shaders**: NVIDIA Cg shader support is deprecated and may not function on all platforms.
+- **Linux**: Issues with compling in Linux. Some changes and fixes are needed
+- **Window**: Not tested yet.
 
 ## License
 
