@@ -3,6 +3,7 @@ default.txt_Int.txt
 total.txt
 debug.log
 .DS_Store
+Thumbs.db
 
 # Meson subprojects
 subprojects/glfw-3.4
