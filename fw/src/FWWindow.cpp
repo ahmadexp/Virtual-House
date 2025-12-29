@@ -10,6 +10,9 @@
 #include "FWWindow.h"
 #include "FWApplication.h"
 #include "FWInput.h"
+#include "FWTime.h"
+#include "FWDebugFont.h"
+#include "FWDebugConsole.h"
 
 // Pointer to the window object
 FWWindow *FWWindow::spWindow = NULL;

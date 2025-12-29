@@ -55,14 +55,15 @@ if glu_dep.found()
 endif
 
 # Platform-specific sources and includes
-if host_system == 'darwin'
-  # macOS - use GLFW for native OpenGL windowing (pure C, no Objective-C)
+if host_system == 'darwin' or host_system == 'linux'
+  # macOS and Linux - both use GLFW
   platform_sources += files(
     'src/psgl/FWGLExtensions.cpp',  # Use PSGL version for basic GL extensions
     'src/glfw/FWGLFWInput.cpp',
     'src/glfw/FWGLFWMain.cpp',
     'src/glfw/FWGLFWGLWindow.cpp',
     'src/glfw/FWGLFWTime.cpp',
+    'src/glfw/FWGLFWGLUFunctions.cpp',  # GLU function implementations
   )
   platform_includes += include_directories('include/glfw')
   
@@ -70,24 +71,12 @@ if host_system == 'darwin'
   glfw_dep = dependency('glfw3', required: true)
   platform_deps += [glfw_dep]
   
-  # macOS frameworks
-  add_project_arguments('-framework', 'Cocoa', language: 'cpp')
-  add_project_arguments('-framework', 'IOKit', language: 'cpp')
-  add_project_arguments('-framework', 'CoreVideo', language: 'cpp')
-  
-elif host_system == 'linux'
-  # Linux
-  platform_sources += files(
-    'src/linux/FWLinuxGLExtensions.cpp',
-    'src/linux/FWLinuxInput.cpp',
-    'src/linux/FWLinuxMain.cpp',
-    'src/linux/FWLinuxTime.cpp',
-    'src/linux/FWLinuxGLWindow.cpp',
-  )
-  platform_includes += include_directories('include/linux')
-  
-  x11_dep = dependency('x11', required: true)
-  platform_deps += [x11_dep]
+  # macOS-specific frameworks
+  if host_system == 'darwin'
+    add_project_arguments('-framework', 'Cocoa', language: 'cpp')
+    add_project_arguments('-framework', 'IOKit', language: 'cpp')
+    add_project_arguments('-framework', 'CoreVideo', language: 'cpp')
+  endif
   
 elif host_system == 'windows'
   # Windows

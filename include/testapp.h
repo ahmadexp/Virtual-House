@@ -3,6 +3,7 @@
 
 #include "psgl/FWGLApplication.h"
 #include "FWInput.h"
+#include "FWTime.h"
 
 class TestApp : public FWGLApplication{
 

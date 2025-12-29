@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include "FWDebug.h"
+#include "FWDebugConsole.h"
 
 bool							FWDebugConsole::sInit = false;
 FWDebugConsole::ConsoleString	FWDebugConsole::sStrings[FWDEBUGCONSOLE_NUMBER_OF_STRINGS];

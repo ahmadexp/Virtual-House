@@ -10,9 +10,20 @@
 #include "win32/FWWin32GLInclude.h"
 #endif//defined(_WIN32) && !defined(PSGL)
 
-// OGL on linux
+// OGL on linux - use GLFW
 #if defined(__linux__) && !defined(PSGL)
-#include "linux/FWLinuxGLInclude.h"
+#include <GL/gl.h>
+#include <GLFW/glfw3.h>
+void gluPerspective(GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar);
+void gluOrtho2D(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top);
+GLint gluBuild2DMipmaps(GLenum target, GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLenum type, const void *data);
+#include <Cg/cgGL.h>
+#include "psgl/FWGLExtensions.h"
+#define glClearDepthf glClearDepth
+#define gluPerspectivef gluPerspective
+#define gluOrtho2Df gluOrtho2D
+#define gluLookAtf gluLookAt
+#define FW_GETGLPROC(x) glfwGetProcAddress(x)
 #endif//defined(__linux__) && !defined(PSGL)
 
 // OGL on macOS

@@ -6,6 +6,9 @@ const float version = 5.8;
 #include <math.h>
 #include <vector>
 #include <string>
+#ifndef _WIN32
+#include <unistd.h>  // for usleep
+#endif
 
 #include "testapp.h"
 #include "platform_audio.h"
