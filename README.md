@@ -10,8 +10,8 @@ A 3D simulation environment built with C++ and OpenGL to study the cognitive spa
 
 | Platform | Dependencies | Install Command |
 |----------|--------------|-----------------|
-| **macOS** | `meson`, `ninja`, `glfw`, `Pkg-config` | `brew install meson ninja glfw Pkg-config` |
-| **Linux** | `meson`, `ninja`, `libx11-dev`, `libgl1-mesa-dev`, `pkg-config` | `sudo apt-get install meson ninja-build libx11-dev libgl1-mesa-dev pkg-config libglu1-mesa-dev` |
+| **macOS** | `meson`, `ninja`, `glfw`, `pkg-config` | `brew install meson ninja glfw Pkg-config` |
+| **Linux** | `meson`, `ninja`, `glfw`, `pkg-config` | `sudo apt-get install meson ninja-build libx11-dev libgl1-mesa-dev pkg-config libglu1-mesa-dev` |
 | **Windows**| `meson`, `ninja`, `Visual Studio`, `pkgconfiglite` | `choco install meson ninja pkgconfiglite` |
 
 ### Building the Project
@@ -91,9 +91,6 @@ runmeEGO.bat
 ## Known Issues
 
 - **Legacy audio**: Audio playback uses system commands (`afplay` on macOS) rather than a dedicated audio library.
-- **Cg Shaders**: NVIDIA Cg shader support is deprecated and may not function on all platforms.
-- **Window**: Not tested yet.
-- Widnows and Linux support still in progress. Mac support works flawlessly. 
 
 ## License
 
