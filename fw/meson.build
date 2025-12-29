@@ -1,9 +1,5 @@
-# Framework library build configuration
-
-# Platform detection
 host_system = host_machine.system()
 
-# Common source files
 common_sources = files(
   'src/FWApplication.cpp',
   'src/FWCamera.cpp',
@@ -28,25 +24,20 @@ platform_sources = []
 platform_deps = []
 platform_includes = []
 
-# Dependencies
 thread_dep = dependency('threads')
 
-# Platform-specific configuration
 if host_system == 'darwin'
-  # macOS - use system OpenGL (not XQuartz) for compatibility
   gl_dep = dependency('OpenGL', required: true)
-  glu_dep = dependency('OpenGL', required: true)  # GLU is part of OpenGL framework on macOS
+  glu_dep = dependency('OpenGL', required: true)
 endif
 
 if host_system == 'linux'
   gl_dep = dependency('gl', required: true)
-  glu_dep = dependency('glu', required: true)  # Use system GLU
+  glu_dep = dependency('glu', required: true)
 endif
 
 if host_system == 'windows'
-  # Windows uses native OpenGL and GLU
   gl_dep = dependency('gl', required: true)
-  # On Windows, GLU is glu32.lib
   cc = meson.get_compiler('cpp')
   glu_dep = cc.find_library('glu32', required: true)
 endif
@@ -56,7 +47,6 @@ if glu_dep.found()
   base_deps += [glu_dep]
 endif
 
-# Windows-specific: Add glaux if available
 if host_system == 'windows'
   cc = meson.get_compiler('cpp')
   glaux_dep = cc.find_library('glaux', required: false)
@@ -65,8 +55,6 @@ if host_system == 'windows'
   endif
 endif
 
-# Platform-specific sources and includes
-# All platforms now use GLFW
 platform_sources += files(
   'src/psgl/FWGLExtensions.cpp',  # Use PSGL version for basic GL extensions
   'src/glfw/FWGLFWInput.cpp',
@@ -76,21 +64,19 @@ platform_sources += files(
 )
 platform_includes += include_directories('include/glfw')
 
-# GLFW dependency - fallback to subproject if not found on system
-glfw_dep = dependency('glfw3', required: false, fallback: ['glfw', 'glfw_dep'])
+glfw_dep = dependency('glfw3', required: false, static: true)
 if not glfw_dep.found()
-  glfw_dep = dependency('glfw3', required: true)
+  sp = subproject('glfw', default_options: ['default_library=static'])
+  glfw_dep = sp.get_variable('glfw_dep')
 endif
 platform_deps += [glfw_dep]
 
-# macOS-specific frameworks
 if host_system == 'darwin'
   add_project_arguments('-framework', 'Cocoa', language: 'cpp')
   add_project_arguments('-framework', 'IOKit', language: 'cpp')
   add_project_arguments('-framework', 'CoreVideo', language: 'cpp')
 endif
 
-# Include directories
 inc_dirs = include_directories(
   'include',
   'include/psgl',
@@ -100,7 +86,6 @@ inc_dirs = include_directories(
 
 all_includes = [inc_dirs] + platform_includes
 
-# Build the framework library
 fw_lib = static_library('framework',
   common_sources + platform_sources,
   include_directories: all_includes,
@@ -108,7 +93,6 @@ fw_lib = static_library('framework',
   install: false,
 )
 
-# Make the library available for the main project
 fw_dep = declare_dependency(
   link_with: fw_lib,
   include_directories: all_includes,

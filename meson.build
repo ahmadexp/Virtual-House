@@ -7,32 +7,17 @@ project('virtualhouse', 'cpp',
   ]
 )
 
-# Platform-specific configuration
 host_system = host_machine.system()
-
 app_deps = []
-
-if host_system == 'darwin'
-  # macOS - silence OpenGL deprecation warnings
-  add_project_arguments('-DGL_SILENCE_DEPRECATION', language: 'cpp')
-  # Disable stack protector to avoid false positives with large static arrays
-  add_project_arguments('-fno-stack-protector', language: 'cpp')
-  
-  # No X11/GLX needed - using native Cocoa
-endif
-
-# Build the framework library
+add_project_arguments('-DGL_SILENCE_DEPRECATION', language: 'cpp')
 subdir('fw')
-
-# Main application source
 app_sources = files(
   'src/start.cpp',
-  'include/sky/skybox.cpp',  # Located in include dir due to original project structure
+  'include/sky/skybox.cpp',
   'include/gamespecific/ms3d/msModel.cpp',
   'include/gamespecific/ms3d/mathlib.cpp',
 )
 
-# Include directories for the main application
 app_inc = include_directories(
   'include',
   'include/generic',
@@ -40,7 +25,6 @@ app_inc = include_directories(
   'include/sky',
 )
 
-# Build the executable
 executable('virtualhouse',
   app_sources,
   include_directories: app_inc,
@@ -49,7 +33,6 @@ executable('virtualhouse',
   win_subsystem: 'console',  # Ensure console window on Windows for debugging
 )
 
-# Create a summary
 summary({
   'Platform': host_system,
   'Build type': get_option('buildtype'),
