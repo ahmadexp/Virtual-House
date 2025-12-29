@@ -1,6 +1,7 @@
 // Static arrays to avoid stack overflow - these are large but only used by loadobj
 #include <cstring>
 #include <cstdlib>
+#include <cstdio>
 
 static const int maxvertexcount=10000;
 static float loadedvertex[maxvertexcount][3];

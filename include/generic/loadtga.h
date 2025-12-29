@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <cstdint>
 
 uint16_t ByteSwap4 (uint16_t nValue){
@@ -55,12 +56,20 @@ GLuint loadtga(char* filename,bool mipmap){
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);
 		gluBuild2DMipmaps(GL_TEXTURE_2D,GL_RGBA,width,height,
+#ifdef _WIN32
+			GL_BGRA_EXT,GL_UNSIGNED_BYTE,pPixels);
+#else
 			GL_BGRA,GL_UNSIGNED_BYTE,pPixels);
+#endif
 	}else{
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,
+#ifdef _WIN32
+			0,GL_BGRA_EXT,GL_UNSIGNED_BYTE,pPixels);
+#else
 			0,GL_BGRA,GL_UNSIGNED_BYTE,pPixels);
+#endif
 	}
 
 	printf("DEBUG: loadtga() - about to delete[] pPixels\n");

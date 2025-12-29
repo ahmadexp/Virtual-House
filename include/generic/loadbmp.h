@@ -1,6 +1,7 @@
 //http://www.codeproject.com/KB/cpp/endianness.aspx
 
 #include <cstdint>
+#include <cstdio>
 
 uint32_t EndianFlipUnsignedLong(uint32_t nLongNumber){
    return (((nLongNumber&0x000000FF)<<24)+((nLongNumber&0x0000FF00)<<8)+
