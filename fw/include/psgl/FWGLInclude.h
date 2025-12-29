@@ -13,10 +13,8 @@
 // OGL on linux - use GLFW
 #if defined(__linux__) && !defined(PSGL)
 #include <GL/gl.h>
+#include <GL/glu.h>
 #include <GLFW/glfw3.h>
-void gluPerspective(GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar);
-void gluOrtho2D(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top);
-GLint gluBuild2DMipmaps(GLenum target, GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLenum type, const void *data);
 #include <Cg/cgGL.h>
 #include "psgl/FWGLExtensions.h"
 #define glClearDepthf glClearDepth

@@ -40,7 +40,7 @@ endif
 
 if host_system == 'linux'
   gl_dep = dependency('gl', required: true)
-  glu_dep = dependency('glu', required: false)
+  glu_dep = dependency('glu', required: true)  # Use system GLU
 endif
 
 if host_system == 'windows'
@@ -63,7 +63,6 @@ if host_system == 'darwin' or host_system == 'linux'
     'src/glfw/FWGLFWMain.cpp',
     'src/glfw/FWGLFWGLWindow.cpp',
     'src/glfw/FWGLFWTime.cpp',
-    'src/glfw/FWGLFWGLUFunctions.cpp',  # GLU function implementations
   )
   platform_includes += include_directories('include/glfw')
   
