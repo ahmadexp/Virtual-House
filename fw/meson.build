@@ -17,7 +17,6 @@ common_sources = files(
   'src/psgl/FWGLCamControlApplication.cpp',
   'src/psgl/FWGLDebugFontRenderer.cpp',
   'src/psgl/FWGLExtensions.cpp',
-  'src/psgl/FWGLGrid.cpp',
 )
 
 platform_sources = []
