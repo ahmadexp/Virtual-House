@@ -2,10 +2,9 @@
 #ifndef __FW_MACOSGLINCLUDE_H__
 #define __FW_MACOSGLINCLUDE_H__
 
-// OpenGL & Cg includes for macOS
+// OpenGL includes for macOS
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
-#include <Cg/cgGL.h>
 
 // OGL extensions supported by PSGL, but not by OGL 1.1
 #include "psgl/FWGLExtensions.h"
