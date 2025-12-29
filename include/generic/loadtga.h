@@ -35,8 +35,8 @@ GLuint loadtga(char* filename,bool mipmap){
 	fread(&bpp,sizeof(unsigned char),1,fp);
 	fread(&id,sizeof(unsigned char),1,fp);
 	
-	// printf("DEBUG: loadtga() - width=%u height=%u bpp=%u\n", width, height, bpp);
-	// fflush(stdout);
+	printf("DEBUG: loadtga() - width=%u height=%u bpp=%u id=%u\n", width, height, bpp, id);
+	fflush(stdout);
 
 	pPixels = new unsigned char[width * height * 4];
 	fread(pPixels, 4, width * height, fp);
