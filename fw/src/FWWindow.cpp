@@ -64,19 +64,43 @@ FWWindow::~FWWindow()
 //-----------------------------------------------------------------------------
 void FWWindow::init()
 {
+	printf("DEBUG: FWWindow::init() - starting\n");
+	fflush(stdout);
+	
 	// initialize timer functions
+	printf("DEBUG: About to call FWTime::init()\n");
+	fflush(stdout);
 	FWTime::init();
+	printf("DEBUG: FWTime::init() completed\n");
+	fflush(stdout);
 
 	// initialize font functions
-	FWDebugFont::init();
+	printf("DEBUG: About to call FWDebugFont::init()\n");
+	fflush(stdout);
+	// TEMPORARY: Commenting out to debug
+	// try {
+	// 	FWDebugFont::init();
+	// } catch (...) {
+	// 	fprintf(stderr, "EXCEPTION caught in FWDebugFont::init()\n");
+	// 	fflush(stderr);
+	// 	throw;
+	// }
+	printf("DEBUG: FWDebugFont::init() skipped (commented out)\n");
+	fflush(stdout);
 
 	// initialize debug console
 	mUseDebugConsole = FWApplication::getApplication()->getStartupInfo().mUseDebugConsole;
+	printf("DEBUG: mUseDebugConsole = %d\n", mUseDebugConsole);
+	fflush(stdout);
 	if(mUseDebugConsole)
 		FWDebugConsole::init();
 
 	// call application init function
+	printf("DEBUG: About to call application onInit()\n");
+	fflush(stdout);
 	mInit = mUpdate = FWApplication::getApplication()->onInit(mArgc, mppArgv);
+	printf("DEBUG: Application onInit() returned %d\n", mInit);
+	fflush(stdout);
 }
 
 //-----------------------------------------------------------------------------

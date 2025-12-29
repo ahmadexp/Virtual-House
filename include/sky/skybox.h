@@ -1,22 +1,22 @@
 #ifndef __SKYBOX_H__
 #define __SKYBOX_H__
 
-#ifdef _WIN32
-#include "glaux.h"
-#else
-// For non-Windows platforms, use a stub or alternative image loading
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
+// Don't include GL headers here - let the parent file handle it
+// This avoids conflicts between GLFW and Windows GL headers
+
+// Forward declarations for GL types
+#ifndef GLint
+typedef int GLint;
+#endif
+#ifndef GLuint
+typedef unsigned int GLuint;
 #endif
 
-// Stub for AUX_RGBImageRec
+// Custom BMP loader for all platforms (glaux is deprecated)
 typedef struct {
 	GLint sizeX, sizeY;
 	unsigned char *data;
 } AUX_RGBImageRec;
-#endif
 
 
 //#pragma comment(lib,"GLaux.lib")
@@ -35,7 +35,7 @@ public:
 private:
 	void DrawSkyBox( float camera_yaw, float camera_pitch );
 
-	AUX_RGBImageRec * LoadBMP( char * file );
+	AUX_RGBImageRec * LoadBMP( const char * file );
 
 	GLuint cube_map_texture_ID;
 };

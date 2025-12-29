@@ -3,3 +3,7 @@ default.txt_Int.txt
 total.txt
 debug.log
 .DS_Store
+
+# Meson subprojects
+subprojects/glfw-3.4
+subprojects/packagecache

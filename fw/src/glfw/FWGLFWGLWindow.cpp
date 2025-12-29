@@ -1,11 +1,13 @@
-// GLFW-based OpenGL Window implementation for macOS
-// Uses pure C GLFW library instead of Objective-C Cocoa
+// GLFW-based OpenGL Window implementation for macOS/Linux/Windows
+// Uses pure C GLFW library instead of platform-specific code
 
 #include <GLFW/glfw3.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 #include "FWDebug.h"
 #include "glfw/FWGLFWGLWindow.h"
 #include "FWApplication.h"
@@ -45,13 +47,23 @@ FWGLFWGLWindow::FWGLFWGLWindow(int argc, char **ppArgv, const FWDisplayInfo &dis
 	: FWWindow(argc, ppArgv, dispInfo, startupInfo)
 	, mpWindow(NULL)
 {
+	printf("DEBUG: FWGLFWGLWindow constructor starting\n");
+	fflush(stdout);
+	
 	// Initialize GLFW
 	glfwSetErrorCallback(glfw_error_callback);
 	
+	printf("DEBUG: Calling glfwInit()\n");
+	fflush(stdout);
+	
 	if (!glfwInit()) {
 		fprintf(stderr, "Failed to initialize GLFW\n");
+		fflush(stderr);
 		exit(EXIT_FAILURE);
 	}
+	
+	printf("DEBUG: GLFW initialized successfully\n");
+	fflush(stdout);
 
 	// Configure OpenGL context
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
@@ -70,12 +82,19 @@ FWGLFWGLWindow::FWGLFWGLWindow(int argc, char **ppArgv, const FWDisplayInfo &dis
 	int width = dispInfo.mWidth > 0 ? dispInfo.mWidth : 800;
 	int height = dispInfo.mHeight > 0 ? dispInfo.mHeight : 600;
 	
+	printf("DEBUG: Creating window: %dx%d, title='%s'\n", width, height, title);
+	fflush(stdout);
+	
 	mpWindow = glfwCreateWindow(width, height, title, NULL, NULL);
 	if (!mpWindow) {
 		fprintf(stderr, "Failed to create GLFW window\n");
+		fflush(stderr);
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
+	
+	printf("DEBUG: Window created successfully\n");
+	fflush(stdout);
 
 	// Make OpenGL context current
 	glfwMakeContextCurrent(mpWindow);
@@ -99,30 +118,34 @@ FWGLFWGLWindow::FWGLFWGLWindow(int argc, char **ppArgv, const FWDisplayInfo &dis
 	printf("OpenGL Version: %s\n", glGetString(GL_VERSION));
 	printf("OpenGL Renderer: %s\n", glGetString(GL_RENDERER));
 	
-	// Set default texture units
-	glActiveTexture(GL_TEXTURE0);
-	glClientActiveTexture(GL_TEXTURE0);
+	// Set default texture unit (if using multitexture)
+	// Note: glActiveTexture requires GL 1.3+ or ARB_multitexture extension
+	// We'll handle this in extensions if needed
 	
 	// Initialize input system with window handle
+	printf("DEBUG: About to initialize FWInput\n");
+	fflush(stdout);
 	FWInput::init(mpWindow);
 	
-	// printf("DEBUG: FWInput initialized\n");
-	// fflush(stdout);
+	printf("DEBUG: FWInput initialized\n");
+	fflush(stdout);
 	
 	// Initialize rest of application (calls FWApplication::onInit)
+	printf("DEBUG: About to call FWWindow::init()\n");
+	fflush(stdout);
 	FWWindow::init();
 	
-	// printf("DEBUG: FWWindow::init() completed, mInit=%d\n", mInit);
-	// fflush(stdout);
+	printf("DEBUG: FWWindow::init() completed, mInit=%d\n", mInit);
+	fflush(stdout);
 	
 	// Call resize if initialization succeeded
 	// IMPORTANT: Use framebuffer size (pixels), not logical window size, for correct Retina rendering
 	if (mInit) {
-		// printf("DEBUG: About to call resize(%d, %d)\n", fbWidth, fbHeight);
-		// fflush(stdout);
+		printf("DEBUG: About to call resize(%d, %d)\n", fbWidth, fbHeight);
+		fflush(stdout);
 		resize(fbWidth, fbHeight);
-		// printf("DEBUG: resize() completed\n");
-		// fflush(stdout);
+		printf("DEBUG: resize() completed\n");
+		fflush(stdout);
 	}
 	
 	// Store display info

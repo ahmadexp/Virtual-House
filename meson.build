@@ -46,6 +46,7 @@ executable('virtualhouse',
   include_directories: app_inc,
   dependencies: [fw_dep] + app_deps,
   install: true,
+  win_subsystem: 'console',  # Ensure console window on Windows for debugging
 )
 
 # Create a summary

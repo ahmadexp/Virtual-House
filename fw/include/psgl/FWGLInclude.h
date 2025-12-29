@@ -5,9 +5,18 @@
 // stop some gl.h's including glext.h
 #define GL_GLEXT_LEGACY
 
-// OGL on win32
+// OGL on Windows - use GLFW (same as Linux)
 #if defined(_WIN32) && !defined(PSGL)
-#include "win32/FWWin32GLInclude.h"
+#include <windows.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GLFW/glfw3.h>
+#include "psgl/FWGLExtensions.h"
+#define glClearDepthf glClearDepth
+#define gluPerspectivef gluPerspective
+#define gluOrtho2Df gluOrtho2D
+#define gluLookAtf gluLookAt
+#define FW_GETGLPROC(x) glfwGetProcAddress(x)
 #endif//defined(_WIN32) && !defined(PSGL)
 
 // OGL on linux - use GLFW
@@ -15,7 +24,6 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GLFW/glfw3.h>
-#include <Cg/cgGL.h>
 #include "psgl/FWGLExtensions.h"
 #define glClearDepthf glClearDepth
 #define gluPerspectivef gluPerspective

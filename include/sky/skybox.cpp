@@ -1,19 +1,21 @@
-#include "skybox.h"
-
-#include <stdio.h>  
+// Include GL headers first before skybox.h
 #ifdef _WIN32
-#include <gl\gl.h>  
-#include "glaux.h"
-#else
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#endif
+
 #ifdef __APPLE__
 #include <OpenGL/gl.h>
 #else
 #include <GL/gl.h>
 #endif
+
+#include "skybox.h"
+
+#include <stdio.h>
 #include <cstring>
 #include <cstdlib>
 #include <cstdint>
-#endif
 
 #define GL_TEXTURE_CUBE_MAP_ARB             0x8513
 #define GL_TEXTURE_CUBE_MAP_POSITIVE_X_ARB  0x8515
@@ -166,7 +168,7 @@ void SKYBOX::DrawSkyBox( float camera_yaw, float camera_pitch )
 
 
 // Cross-platform LoadBMP
-AUX_RGBImageRec * SKYBOX::LoadBMP(char *Filename)  // Loading Bitmap
+AUX_RGBImageRec * SKYBOX::LoadBMP(const char *Filename)  // Loading Bitmap
 {
     FILE *File = NULL;
 
@@ -179,11 +181,7 @@ AUX_RGBImageRec * SKYBOX::LoadBMP(char *Filename)  // Loading Bitmap
 
     if (File)
     {
-#ifdef _WIN32
-        fclose(File);
-        return auxDIBImageLoad(Filename);
-#else
-        // Custom BMP loader for non-Windows platforms
+        // Custom BMP loader for all platforms (glaux is deprecated)
         uint16_t Type;          // signature - 'BM'
         uint32_t Size;          // file size in bytes
         uint16_t Reserved1;     // 0
@@ -251,7 +249,6 @@ AUX_RGBImageRec * SKYBOX::LoadBMP(char *Filename)  // Loading Bitmap
 
         fclose(File);
         return image;
-#endif
     }
 
     return NULL;

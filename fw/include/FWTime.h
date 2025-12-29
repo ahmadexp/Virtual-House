@@ -1,11 +1,8 @@
 #ifndef __FW_TIME_H__
 #define __FW_TIME_H__
 
-#ifdef _WIN32
-#include "win32/FWWin32Time.h"
-#endif//_MSC_VER
-
-#ifdef __linux__
+// Windows, Linux, and macOS all use GLFW-based time now
+#if defined(_WIN32) || defined(__linux__) || defined(__APPLE__)
 // Linux uses GLFW time implementation
 #include <stdint.h>
 
@@ -60,11 +57,7 @@ public:
 
 	friend class			FWTime;
 };
-#endif//__linux__
-
-#ifdef __APPLE__
-#include "macos/FWMacOSTime.h"
-#endif//__APPLE__
+#endif // Windows, Linux, or macOS
 
 #ifdef __CELLOS_LV2__
 #include "cell/FWCellTime.h"

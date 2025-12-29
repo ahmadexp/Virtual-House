@@ -12,13 +12,30 @@ int main(int argc, char **ppArgv)
 {
 	FWGLFWGLWindow *pWindow;
 
+	// Test if we can even print
+	fprintf(stderr, "STDERR: Starting GLFW main\n");
+	fflush(stderr);
+	printf("STDOUT: Starting GLFW main, argc=%d\n", argc);
+	fflush(stdout);
+	
+	// Check if application exists
+	FWApplication *pApp = FWApplication::getApplication();
+	if (!pApp) {
+		fprintf(stderr, "ERROR: No application found\n");
+		fflush(stderr);
+		return 1;
+	}
+	
+	printf("DEBUG: Application found, creating window\n");
+	fflush(stdout);
+
 	// Create window
 	pWindow = new FWGLFWGLWindow(argc - 1, &ppArgv[1], 
-		FWApplication::getApplication()->getDisplayInfo(), 
-		FWApplication::getApplication()->getStartupInfo());
+		pApp->getDisplayInfo(), 
+		pApp->getStartupInfo());
 
-	// printf("DEBUG: Window created, entering main loop\n");
-	// fflush(stdout);
+	printf("DEBUG: Window created, entering main loop\n");
+	fflush(stdout);
 
 	// Main loop (matches Linux architecture)
 	bool IsRunning = true;

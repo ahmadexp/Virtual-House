@@ -63,11 +63,22 @@ FWDebugFontRenderer	*FWDebugFont::spRenderer = NULL;
 //-----------------------------------------------------------------------------
 void FWDebugFont::init()
 {
+	printf("DEBUG: FWDebugFont::init() - starting\n");
+	fflush(stdout);
+	
 	// initialize renderer
 	if(!spRenderer)
+	{
+		printf("DEBUG: spRenderer is NULL, returning early\n");
+		fflush(stdout);
 		return;
+	}
 	
+	printf("DEBUG: About to call spRenderer->init()\n");
+	fflush(stdout);
 	spRenderer->init();
+	printf("DEBUG: spRenderer->init() completed\n");
+	fflush(stdout);
 
 	// initialize various bits	
 	sXPos = sYPos = 0;
@@ -75,12 +86,16 @@ void FWDebugFont::init()
 	sR = sG = sB = 1.f;
 
 	// allocate vertex arrays
+	printf("DEBUG: Allocating vertex arrays\n");
+	fflush(stdout);
 	spPositions[0] = new Position[FWDEBUGFONT_MAX_CHAR_COUNT * NUM_VERTS_PER_GLYPH];
 	spTexCoords[0] = new TexCoord[FWDEBUGFONT_MAX_CHAR_COUNT * NUM_VERTS_PER_GLYPH];
 	spPositions[1] = new Position[FWDEBUGFONT_MAX_CHAR_COUNT * NUM_VERTS_PER_GLYPH];
 	spTexCoords[1] = new TexCoord[FWDEBUGFONT_MAX_CHAR_COUNT * NUM_VERTS_PER_GLYPH];
 	spColors[0] = new Color[FWDEBUGFONT_MAX_CHAR_COUNT * NUM_VERTS_PER_GLYPH];
 	spColors[1] = new Color[FWDEBUGFONT_MAX_CHAR_COUNT * NUM_VERTS_PER_GLYPH];
+	printf("DEBUG: FWDebugFont::init() completed\n");
+	fflush(stdout);
 }
 
 //-----------------------------------------------------------------------------

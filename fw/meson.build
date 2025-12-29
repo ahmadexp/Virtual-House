@@ -44,9 +44,11 @@ if host_system == 'linux'
 endif
 
 if host_system == 'windows'
-  # Windows uses native OpenGL
+  # Windows uses native OpenGL and GLU
   gl_dep = dependency('gl', required: true)
-  glu_dep = dependency('glu', required: false)
+  # On Windows, GLU is glu32.lib
+  cc = meson.get_compiler('cpp')
+  glu_dep = cc.find_library('glu32', required: true)
 endif
 
 base_deps = [gl_dep, thread_dep]
@@ -54,41 +56,38 @@ if glu_dep.found()
   base_deps += [glu_dep]
 endif
 
-# Platform-specific sources and includes
-if host_system == 'darwin' or host_system == 'linux'
-  # macOS and Linux - both use GLFW
-  platform_sources += files(
-    'src/psgl/FWGLExtensions.cpp',  # Use PSGL version for basic GL extensions
-    'src/glfw/FWGLFWInput.cpp',
-    'src/glfw/FWGLFWMain.cpp',
-    'src/glfw/FWGLFWGLWindow.cpp',
-    'src/glfw/FWGLFWTime.cpp',
-  )
-  platform_includes += include_directories('include/glfw')
-  
-  # GLFW dependency
-  glfw_dep = dependency('glfw3', required: true)
-  platform_deps += [glfw_dep]
-  
-  # macOS-specific frameworks
-  if host_system == 'darwin'
-    add_project_arguments('-framework', 'Cocoa', language: 'cpp')
-    add_project_arguments('-framework', 'IOKit', language: 'cpp')
-    add_project_arguments('-framework', 'CoreVideo', language: 'cpp')
+# Windows-specific: Add glaux if available
+if host_system == 'windows'
+  cc = meson.get_compiler('cpp')
+  glaux_dep = cc.find_library('glaux', required: false)
+  if glaux_dep.found()
+    base_deps += [glaux_dep]
   endif
-  
-elif host_system == 'windows'
-  # Windows
-  platform_sources += files(
-    'src/win32/FWWin32GLExtensions.cpp',
-    'src/win32/FWWin32Input.cpp',
-    'src/win32/FWWin32Main.cpp',
-    'src/win32/FWWin32Time.cpp',
-    'src/win32/FWWin32GLWindow.cpp',
-  )
-  platform_includes += include_directories('include/win32')
-  
-  # Windows doesn't need X11
+endif
+
+# Platform-specific sources and includes
+# All platforms now use GLFW
+platform_sources += files(
+  'src/psgl/FWGLExtensions.cpp',  # Use PSGL version for basic GL extensions
+  'src/glfw/FWGLFWInput.cpp',
+  'src/glfw/FWGLFWMain.cpp',
+  'src/glfw/FWGLFWGLWindow.cpp',
+  'src/glfw/FWGLFWTime.cpp',
+)
+platform_includes += include_directories('include/glfw')
+
+# GLFW dependency - fallback to subproject if not found on system
+glfw_dep = dependency('glfw3', required: false, fallback: ['glfw', 'glfw_dep'])
+if not glfw_dep.found()
+  glfw_dep = dependency('glfw3', required: true)
+endif
+platform_deps += [glfw_dep]
+
+# macOS-specific frameworks
+if host_system == 'darwin'
+  add_project_arguments('-framework', 'Cocoa', language: 'cpp')
+  add_project_arguments('-framework', 'IOKit', language: 'cpp')
+  add_project_arguments('-framework', 'CoreVideo', language: 'cpp')
 endif
 
 # Include directories

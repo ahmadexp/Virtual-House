@@ -56,8 +56,8 @@ int stairtype=3;   //1=stairs at 180degrees, 2=stairs at 90 degrees, 3=ramp at 1
 //int temp;
 
 const char mediadir[] = "Media/";
-char* logfilename="default.txt";
-char* total_logfilename="total.txt";
+const char* logfilename="default.txt";
+const char* total_logfilename="total.txt";
 char logfilename_2[100];
 FILE * pFile;
 FILE * pFile_2;
