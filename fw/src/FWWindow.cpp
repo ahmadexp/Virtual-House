@@ -1,8 +1,5 @@
 
 #include <stdio.h>
-#ifdef __CELLOS_LV2__
-#include <sys/paths.h>
-#endif
 
 // Include string.h for memset/strchr
 #include <string.h>
@@ -191,14 +188,7 @@ void FWWindow::destroy()
 //-----------------------------------------------------------------------------
 void FWWindow::parseArgumentsFile(const char *pArgumentsFile)
 {
-#ifdef __CELLOS_LV2__
-	char	fileName[256];
-	snprintf(fileName, sizeof(fileName), "%s/%s", SYS_APP_HOME, pArgumentsFile);
-	
-	FILE	*fp = fopen(fileName, "r");
-#else
 	FILE	*fp = fopen(pArgumentsFile, "r");
-#endif
 
 	if(fp == NULL)
 		return;

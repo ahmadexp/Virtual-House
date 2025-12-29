@@ -16,10 +16,6 @@
 #include <scalar/cpp/vectormath_aos.h>
 #endif//__APPLE__
 
-#ifdef __CELLOS_LV2__
-#include <vectormath/cpp/vectormath_aos.h>
-#endif//__CELLOS_LV2__
-
 using namespace Vectormath::Aos;
 
 #endif //__FW_MATH_H__

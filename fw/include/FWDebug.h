@@ -18,8 +18,4 @@
 #include "macos/FWMacOSDebug.h"
 #endif//__APPLE__
 
-#ifdef __CELLOS_LV2__
-#include "cell/FWCellDebug.h"
-#endif//__CELLOS_LV2__
-
 #endif//__FW_DEBUG_H__

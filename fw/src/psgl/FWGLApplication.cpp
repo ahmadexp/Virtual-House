@@ -17,10 +17,6 @@
 #define LITTLE_SHORT(x) (x)
 #endif
 
-#ifdef __CELLOS_LV2__
-#include <sys/paths.h>
-#endif//__CELLOS_LV2__
-
 //-----------------------------------------------------------------------------
 // Description: Constructor
 // Parameters: 
@@ -170,11 +166,7 @@ void FWGLApplication::captureScreen(const char *pFilename)
 			if(fp)
 				fclose(fp);
 
-#ifdef __CELLOS_LV2__
-			snprintf(filename, sizeof(filename), SYS_APP_HOME"/screen%04d.tga", i);
-#else
 			snprintf(filename, sizeof(filename), "screen%04d.tga", i);
-#endif
 			fp = fopen(filename, "rb");
 			i ++;
 		} while(fp);

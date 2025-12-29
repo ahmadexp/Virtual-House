@@ -3,10 +3,6 @@
 #ifndef __FW_STARTUPINFO_H__
 #define __FW_STARTUPINFO_H__
 
-#ifdef __CELLOS_LV2__
-#include <sys/paths.h>
-#endif
-
 // Forward declare strcpy to avoid macOS C++ header conflicts
 extern "C" char* strcpy(char*, const char*);
 

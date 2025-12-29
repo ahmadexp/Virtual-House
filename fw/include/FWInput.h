@@ -2,12 +2,6 @@
 #ifndef __FW_INPUT_H__
 #define __FW_INPUT_H__
 
-#if !defined(_WIN32)
-#if !defined(__linux__) && !defined(__APPLE__)
-#include <cell/pad.h>
-#endif // !defined(__linux__) && !defined(__APPLE__)
-#endif // !defined(_WIN32)
-
 // Maximum number of devices
 #define FWINPUT_MAX_DEVICES	256
 // Maximum number of filters per device

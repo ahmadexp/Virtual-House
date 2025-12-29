@@ -1,10 +1,6 @@
 #ifndef __FW_STARTUPINFO_H__
 #define __FW_STARTUPINFO_H__
 
-#ifdef __CELLOS_LV2__
-#include <sys/paths.h>
-#endif
-
 #define FWSTARTUPINFO_DEFAULT_NUMRAWSPUS	3
 #define FWSTARTUPINFO_DEFAULT_USEDEBUGCONSOLE	true
 #define FWSTARTUPINFO_DEFAULT_WINDOWTITLE	"Sample Framework"

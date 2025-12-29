@@ -59,8 +59,4 @@ public:
 };
 #endif//__linux__
 
-#ifdef __CELLOS_LV2__
-#include "cell/FWCellTime.h"
-#endif//__CELLOS_LV2__
-
 #endif//__FW_TIME_H__
