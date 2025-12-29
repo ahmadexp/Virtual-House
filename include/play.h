@@ -1,5 +1,7 @@
 void TestApp::play(float gamespeed){
 
+	// Check if keyboard is initialized, if not return early to avoid crashes
+	if(mpKey[0] == NULL) return;
 
 	//decrease view range
 	if(mpKey[FWInput::Channel_Key_1]->getBoolTrue()){
