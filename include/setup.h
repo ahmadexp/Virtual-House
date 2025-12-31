@@ -396,19 +396,13 @@ void TestApp::setupmedia(){
 }
 
 void TestApp::setupgame(){
-	printf("DEBUG: setupgame() entered\n");
-	fflush(stdout);
 
 	//setup the world grid
 	worldgrid[0][0][0][0]=99;
 //	loadworldgrid();
 	bool newworld=0;
 	if(worldgrid[0][0][0][0]==99){
-		printf("DEBUG: calling genworldgrid()\n");
-		fflush(stdout);
 		genworldgrid();
-		printf("DEBUG: genworldgrid() returned\n");
-		fflush(stdout);
 		//saveworldgrid();
 		newworld=1;
 	}
@@ -417,11 +411,7 @@ void TestApp::setupgame(){
 	playerypos=-9001;
 //	load();
 	if(playerypos==-9001 || newworld==1){
-		printf("DEBUG: calling genentities()\n");
-		fflush(stdout);
 		genentities();
-		printf("DEBUG: genentities() returned\n");
-		fflush(stdout);
 //		usetextures=1;
 		ghostmode=0;
 		collectablesfound=0;
@@ -498,17 +488,11 @@ void TestApp::setupgame(){
 
 	//generate the visible world
 	if(!usetileswhenrendering) {
-		printf("DEBUG: calling genvisibleworld()\n");
-		fflush(stdout);
 		genvisibleworld();
-		printf("DEBUG: genvisibleworld() returned\n");
-		fflush(stdout);
 	}
 
 	//generate the mini map
 	minimaptexture=genminimap();
-	printf("DEBUG: genminimap() returned\n");
-	fflush(stdout);
 
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
@@ -542,7 +526,6 @@ void TestApp::setupgame(){
 
 	
 
-	printf("DEBUG: setupgame() finished\n");
-	fflush(stdout);
+	glLightfv(GL_LIGHT0,GL_SPECULAR,light_specular0);
 
 }

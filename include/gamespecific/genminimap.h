@@ -1,6 +1,4 @@
 GLuint genminimap(){
-	printf("DEBUG: genminimap() entered\n");
-	fflush(stdout);
 
 	int powoftwo;
 
@@ -15,8 +13,6 @@ GLuint genminimap(){
 	zsize=powoftwo;
 
 	GLubyte* texturedata = new GLubyte[xsize*zsize*3];
-	printf("DEBUG: genminimap() - texturedata allocated\n");
-	fflush(stdout);
 
 	for(int z=0; z<zsize; z++)for(int x=0; x<xsize; x++){
 		//default to blackness
