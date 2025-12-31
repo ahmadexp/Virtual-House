@@ -17,12 +17,26 @@ static int loadedface[maxfacecount][9];
 
 void loadobj(char* filename,float*& vertexarray,float*& texturearray,float*& normalarray,int &outputarraysize,float scale){
 
+	// CRITICAL FIX: Initialize output parameters to safe values
+	// If file fails to open, these prevent crashes from uninitialized pointers
+	vertexarray = NULL;
+	texturearray = NULL;
+	normalarray = NULL;
+	outputarraysize = 0;
+
 	int vertexcount=0;
 	int texturecount=0;
 	int normalcount=0;
 	int facecount=0;
 	FILE* fp = fopen(filename, "r");
-	if (!fp) return;
+	if (!fp) {
+		printf("ERROR: loadobj() - failed to open '%s'\n", filename);
+		fflush(stdout);
+		return;
+	}
+	
+	printf("DEBUG: loadobj() - loading '%s'\n", filename);
+	fflush(stdout);
 	
 	char temptext[500];
 	while(fscanf(fp, "%499s", temptext) == 1){

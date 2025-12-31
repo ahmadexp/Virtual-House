@@ -141,6 +141,22 @@ void TestApp::setupmedia(){
 			worldtiletexturearray[a],
 			worldtilenormalarray[a][0],
 			worldtilevertexcount[a],1.0);
+		
+		// CRITICAL FIX: Skip processing if file failed to load
+		if (worldtilevertexcount[a] == 0 || worldtilevertexarray[a][0] == NULL) {
+			printf("WARNING: Skipping tile %d - failed to load OBJ file\n", a);
+			fflush(stdout);
+			// Initialize all pointers to NULL for safety
+			for(int b=0; b<4; b++){
+				worldtilevertexarray[a][b] = NULL;
+				worldtilenormalarray[a][b] = NULL;
+				worldtileinterleavedvertex[a][b] = NULL;
+				worldtilecollisionmesh[a][b] = NULL;
+			}
+			worldtiletexturearray[a] = NULL;
+			continue;
+		}
+		
 		//set vertex positions for the alternate rotation
 		for(int b=1; b<4; b++){
 			worldtilevertexarray[a][b] = new float[worldtilevertexcount[a]*3];
