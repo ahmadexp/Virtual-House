@@ -334,14 +334,20 @@ void TestApp::setupmedia(){
 		playernormalarray,
 		playervertexcount,1.0);
 
-	//rig the texture coordinates
-	for(int b=0; b<playervertexcount/3; b++){
-		playertexturearray[b*3*2+0]=0;
-		playertexturearray[b*3*2+1]=0;
-		playertexturearray[b*3*2+2]=1;
-		playertexturearray[b*3*2+3]=0;
-		playertexturearray[b*3*2+4]=0;
-		playertexturearray[b*3*2+5]=1;
+	// CRITICAL FIX: Skip processing if file failed to load
+	if (playervertexcount == 0 || playervertexarray == NULL) {
+		printf("WARNING: Player mesh failed to load - skipping\n");
+		fflush(stdout);
+	} else {
+		//rig the texture coordinates
+		for(int b=0; b<playervertexcount/3; b++){
+			playertexturearray[b*3*2+0]=0;
+			playertexturearray[b*3*2+1]=0;
+			playertexturearray[b*3*2+2]=1;
+			playertexturearray[b*3*2+3]=0;
+			playertexturearray[b*3*2+4]=0;
+			playertexturearray[b*3*2+5]=1;
+		}
 	}
 
 	//load water mesh

@@ -11,7 +11,21 @@ void loadms3d(char* filename,
 			  float*& normalarray,
 			  int &outputarraysize,float scale){
 
-	milkshapmodel.Load(filename);
+	// CRITICAL FIX: Initialize output parameters to safe values
+	vertexarray = NULL;
+	texturearray = NULL;
+	normalarray = NULL;
+	outputarraysize = 0;
+	
+	printf("DEBUG: loadms3d() - loading '%s'\n", filename);
+	fflush(stdout);
+
+	if (!milkshapmodel.Load(filename)) {
+		printf("ERROR: loadms3d() - failed to load '%s'\n", filename);
+		fflush(stdout);
+		return;
+	}
+	
 	milkshapmodel.SetupJoints();
 
 	outputarraysize=milkshapmodel.GetNumTriangles()*3;
