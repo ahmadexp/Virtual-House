@@ -152,17 +152,43 @@ bool msModel::Load(const char *filename)
 	fflush(stdout);
 
 	// groups
+	printf("DEBUG: msModel::Load() - reading groups\n");
+	fflush(stdout);
 	unsigned short numGroups;
 	fread(&numGroups, sizeof(unsigned short), 1, fp);
-	m_groups.resize(numGroups);
+	printf("DEBUG: msModel::Load() - numGroups: %d\n", numGroups);
+	fflush(stdout);
+
+	try {
+		m_groups.resize(numGroups);
+	} catch (const std::exception& e) {
+		printf("ERROR: msModel::Load() - failed to resize m_groups: %s\n", e.what());
+		fflush(stdout);
+		fclose(fp);
+		return false;
+	}
+
 	for (i = 0; i < numGroups; i++)
 	{
+		printf("DEBUG: msModel::Load() - reading group %d/%d\n", i, numGroups);
+		fflush(stdout);
 		fread(&m_groups[i].flags, sizeof(unsigned char), 1, fp);
 		fread(m_groups[i].name, sizeof(char), 32, fp);
 
 		unsigned short numGroupTriangles;
 		fread(&numGroupTriangles, sizeof(unsigned short), 1, fp);
-		m_groups[i].triangleIndices.resize(numGroupTriangles);
+		printf("DEBUG: msModel::Load() - group %d has %d triangles\n", i, numGroupTriangles);
+		fflush(stdout);
+		
+		try {
+			m_groups[i].triangleIndices.resize(numGroupTriangles);
+		} catch (const std::exception& e) {
+			printf("ERROR: msModel::Load() - failed to resize triangleIndices: %s\n", e.what());
+			fflush(stdout);
+			fclose(fp);
+			return false;
+		}
+
 		if (numGroupTriangles > 0)
 			fread(&m_groups[i].triangleIndices[0], sizeof(unsigned short), numGroupTriangles, fp);
 
@@ -170,9 +196,22 @@ bool msModel::Load(const char *filename)
 	}
 
 	// materials
+	printf("DEBUG: msModel::Load() - reading materials\n");
+	fflush(stdout);
 	unsigned short numMaterials;
 	fread(&numMaterials, sizeof(unsigned short), 1, fp);
-	m_materials.resize(numMaterials);
+	printf("DEBUG: msModel::Load() - numMaterials: %d\n", numMaterials);
+	fflush(stdout);
+
+	try {
+		m_materials.resize(numMaterials);
+	} catch (const std::exception& e) {
+		printf("ERROR: msModel::Load() - failed to resize m_materials: %s\n", e.what());
+		fflush(stdout);
+		fclose(fp);
+		return false;
+	}
+
 	for (i = 0; i < numMaterials; i++)
 	{
 		fread(m_materials[i].name, sizeof(char), 32, fp);
@@ -194,6 +233,8 @@ bool msModel::Load(const char *filename)
 	}
 
 	// animation
+	printf("DEBUG: msModel::Load() - reading animation info\n");
+	fflush(stdout);
 	fread(&m_animationFps, sizeof(float), 1, fp);
 	if (m_animationFps < 1.0f)
 		m_animationFps = 1.0f;
@@ -201,11 +242,26 @@ bool msModel::Load(const char *filename)
 	fread(&m_totalFrames, sizeof(int), 1, fp);
 
 	// joints
+	printf("DEBUG: msModel::Load() - reading joints\n");
+	fflush(stdout);
 	unsigned short numJoints;
 	fread(&numJoints, sizeof(unsigned short), 1, fp);
-	m_joints.resize(numJoints);
+	printf("DEBUG: msModel::Load() - numJoints: %d\n", numJoints);
+	fflush(stdout);
+
+	try {
+		m_joints.resize(numJoints);
+	} catch (const std::exception& e) {
+		printf("ERROR: msModel::Load() - failed to resize m_joints: %s\n", e.what());
+		fflush(stdout);
+		fclose(fp);
+		return false;
+	}
+
 	for (i = 0; i < numJoints; i++)
 	{
+		printf("DEBUG: msModel::Load() - reading joint %d/%d\n", i, numJoints);
+		fflush(stdout);
 		fread(&m_joints[i].flags, sizeof(unsigned char), 1, fp);
 		fread(m_joints[i].name, sizeof(char), 32, fp);
 		fread(m_joints[i].parentName, sizeof(char), 32, fp);
