@@ -45,7 +45,7 @@ float JoyAngVel=2.36;
 float JoyTransVel=0.1;
 float InOutRatio=1;
 
-int lang=1;   // 1=English 2=Spanish 3=French 4=German
+int lang=1;   // 1=English 2=French 3=Spanish 4=German
 
 #define max_latency 1000
 int control_buffer[4][max_latency];
@@ -121,10 +121,10 @@ bool TestApp::onInit(int argc, char **ppArgv){
 		if(!strcmp(ppArgv[i],"/TRIAL") && i+1<argc && ppArgv[i+1]) trial=atoi(ppArgv[i+1]);                    
 		if(!strcmp(ppArgv[i],"/LATENCY") && i+1<argc && ppArgv[i+1]) latency=atoi(ppArgv[i+1]);
 		if(!strcmp(ppArgv[i],"/ALLOCENTRIC")) allocentric=1;
-		if(!strcmp(ppArgv[i],"/JOYANGVEL") && i+1<argc && ppArgv[i+1]) JoyAngVel*=atof(ppArgv[i+1]);
-		if(!strcmp(ppArgv[i],"/JOYTRANSVEL") && i+1<argc && ppArgv[i+1]) JoyTransVel*=atof(ppArgv[i+1]);
-		if(!strcmp(ppArgv[i],"/LANGUAGE") && i+1<argc && ppArgv[i+1]) lang*=atoi(ppArgv[i+1]);
-		if(!strcmp(ppArgv[i],"/INOUTRATIO") && i+1<argc && ppArgv[i+1]) InOutRatio*=atof(ppArgv[i+1]);
+		if(!strcmp(ppArgv[i],"/JOYANGVEL") && i+1<argc && ppArgv[i+1]) JoyAngVel=atof(ppArgv[i+1]);
+		if(!strcmp(ppArgv[i],"/JOYTRANSVEL") && i+1<argc && ppArgv[i+1]) JoyTransVel=atof(ppArgv[i+1]);
+		if(!strcmp(ppArgv[i],"/LANGUAGE") && i+1<argc && ppArgv[i+1]) lang=atoi(ppArgv[i+1]);
+		if(!strcmp(ppArgv[i],"/INOUTRATIO") && i+1<argc && ppArgv[i+1]) InOutRatio=atof(ppArgv[i+1]);
 		if(!strcmp(ppArgv[i],"/KIDMODE")) kidmode=1;
 		if(!strcmp(ppArgv[i],"/ANIMSOUND")) animal_background_sound=1;
 		if(!strcmp(ppArgv[i],"/PERPSTAIR") && i+1<argc && ppArgv[i+1]) stairtype=atoi(ppArgv[i+1]);
@@ -160,24 +160,24 @@ bool TestApp::onInit(int argc, char **ppArgv){
 	// fflush(stdout);
 
 	pFile = fopen (logfilename,"w");
-	
-	// printf("DEBUG: About to sprintf logfilename_2\n");
-	// fflush(stdout);
+	if (!pFile) {
+		fprintf(stderr, "Warning: Could not open log file '%s'\n", logfilename);
+	}
 	
 	snprintf(logfilename_2, sizeof(logfilename_2), "%s%s",logfilename,"_Int.txt");
 	
-	// printf("DEBUG: After sprintf, logfilename_2='%s'\n", logfilename_2);
-	// fflush(stdout);
-	
 	pFile_2 = fopen ((char *)logfilename_2,"w");
-	
-	// printf("DEBUG: Opened pFile_2, about to check trial\n");
-	// fflush(stdout);
+	if (!pFile_2) {
+		fprintf(stderr, "Warning: Could not open log file '%s'\n", logfilename_2);
+	}
 	
 	if(trial==1)
 		pFile_3 = fopen ((char *)total_logfilename,"w");		//open a new total file
 	else if(trial>1)
 		pFile_3 = fopen ((char *)total_logfilename,"a");		//append to the existing total file
+	if (!pFile_3) {
+		fprintf(stderr, "Warning: Could not open total log file '%s'\n", total_logfilename);
+	}
 	
 	// printf("DEBUG: Past file opening, calling srand\n");
 	// fflush(stdout);
@@ -369,8 +369,10 @@ void TestApp::onShutdown(){
 	
 	glDisable(GL_LIGHTING);
 	glDisable(GL_LIGHT0);
-	fclose (pFile);
-	fprintf(pFile_2,"_______________________________________________________________________________________________________________________\n");
-	fclose (pFile_2);
-	fclose (pFile_3);
+	if (pFile) fclose (pFile);
+	if (pFile_2) {
+		fprintf(pFile_2,"_______________________________________________________________________________________________________________________\n");
+		fclose (pFile_2);
+	}
+	if (pFile_3) fclose (pFile_3);
 }

@@ -30,8 +30,6 @@ inline void PlatformPlaySound(const char* filename, bool async) {
         cmd += " > /dev/null 2>&1 &";
     }
     
-    printf("DEBUG: Executing audio command: %s\n", cmd.c_str());
-    fflush(stdout);
     system(cmd.c_str());
 }
 
