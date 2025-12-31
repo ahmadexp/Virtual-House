@@ -114,11 +114,30 @@ bool msModel::Load(const char *filename)
 	fflush(stdout);
 
 	// triangles
+	printf("DEBUG: msModel::Load() - reading triangles\n");
+	fflush(stdout);
 	unsigned short numTriangles;
 	fread(&numTriangles, sizeof(unsigned short), 1, fp);
-	m_triangles.resize(numTriangles);
+	printf("DEBUG: msModel::Load() - numTriangles: %d\n", numTriangles);
+	fflush(stdout);
+
+	try {
+		m_triangles.resize(numTriangles);
+		printf("DEBUG: msModel::Load() - m_triangles resized successfully\n");
+		fflush(stdout);
+	} catch (const std::exception& e) {
+		printf("ERROR: msModel::Load() - failed to resize m_triangles: %s\n", e.what());
+		fflush(stdout);
+		fclose(fp);
+		return false;
+	}
+
 	for (i = 0; i < numTriangles; i++)
 	{
+		if (i % 500 == 0) {
+			printf("DEBUG: msModel::Load() - reading triangle %d/%d\n", i, numTriangles);
+			fflush(stdout);
+		}
 		fread(&m_triangles[i].flags, sizeof(unsigned short), 1, fp);
 		fread(m_triangles[i].vertexIndices, sizeof(unsigned short), 3, fp);
 		fread(m_triangles[i].vertexNormals, sizeof(float), 3 * 3, fp);
@@ -129,6 +148,8 @@ bool msModel::Load(const char *filename)
 
 		// TODO: calculate triangle normal
 	}
+	printf("DEBUG: msModel::Load() - finished reading triangles\n");
+	fflush(stdout);
 
 	// groups
 	unsigned short numGroups;
