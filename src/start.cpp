@@ -285,8 +285,14 @@ bool TestApp::onUpdate(){
 		// fflush(stdout);
 		setupbuttons();
 		setupmedia();
+		printf("DEBUG: setupmedia() returned\n");
+		fflush(stdout);
 		skybox = new SKYBOX();
+		printf("DEBUG: skybox allocated\n");
+		fflush(stdout);
 		skybox->Initialize();
+		printf("DEBUG: skybox initialized\n");
+		fflush(stdout);
 		gamestate=3;
 	}else if(gamestate==3){//setup the game world
 		setupgame();
