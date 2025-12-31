@@ -101,10 +101,7 @@ bool msModel::Load(const char *filename)
 	fflush(stdout);
 	for (i = 0; i < numVertices; i++)
 	{
-		if (i % 500 == 0) {
-			printf("DEBUG: msModel::Load() - reading vertex %d/%d\n", i, numVertices);
-			fflush(stdout);
-		}
+
 		fread(&m_vertices[i].flags, sizeof(unsigned char), 1, fp);
 		fread(&m_vertices[i].vertex, sizeof(float), 3, fp);
 		fread(&m_vertices[i].boneId, sizeof(char), 1, fp);
@@ -134,10 +131,7 @@ bool msModel::Load(const char *filename)
 
 	for (i = 0; i < numTriangles; i++)
 	{
-		if (i % 500 == 0) {
-			printf("DEBUG: msModel::Load() - reading triangle %d/%d\n", i, numTriangles);
-			fflush(stdout);
-		}
+
 		fread(&m_triangles[i].flags, sizeof(unsigned short), 1, fp);
 		fread(m_triangles[i].vertexIndices, sizeof(unsigned short), 3, fp);
 		fread(m_triangles[i].vertexNormals, sizeof(float), 3 * 3, fp);
