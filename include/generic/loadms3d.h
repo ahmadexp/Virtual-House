@@ -113,5 +113,8 @@ void loadms3d(char* filename,
 			trinum+=1;
 		}
 	}
+	
+	printf("DEBUG: loadms3d() - completed successfully\n");
+	fflush(stdout);
 
 }

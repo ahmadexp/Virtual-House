@@ -168,6 +168,7 @@ bool msModel::Load(const char *filename)
 		fflush(stdout);
 		fread(&m_groups[i].flags, sizeof(unsigned char), 1, fp);
 		fread(m_groups[i].name, sizeof(char), 32, fp);
+		m_groups[i].name[31] = '\0';
 
 		unsigned short numGroupTriangles;
 		fread(&numGroupTriangles, sizeof(unsigned short), 1, fp);
@@ -209,6 +210,7 @@ bool msModel::Load(const char *filename)
 	for (i = 0; i < numMaterials; i++)
 	{
 		fread(m_materials[i].name, sizeof(char), 32, fp);
+		m_materials[i].name[31] = '\0';
 		fread(&m_materials[i].ambient, sizeof(float), 4, fp);
 		fread(&m_materials[i].diffuse, sizeof(float), 4, fp);
 		fread(&m_materials[i].specular, sizeof(float), 4, fp);
@@ -218,6 +220,8 @@ bool msModel::Load(const char *filename)
 		fread(&m_materials[i].mode, sizeof(unsigned char), 1, fp);
         fread(m_materials[i].texture, sizeof(char), MAX_TEXTURE_FILENAME_SIZE, fp);
         fread(m_materials[i].alphamap, sizeof(char), MAX_TEXTURE_FILENAME_SIZE, fp);
+		m_materials[i].texture[MAX_TEXTURE_FILENAME_SIZE-1] = '\0';
+		m_materials[i].alphamap[MAX_TEXTURE_FILENAME_SIZE-1] = '\0';
 
 		// set alpha
 		m_materials[i].ambient[3] = m_materials[i].transparency;
@@ -259,6 +263,8 @@ bool msModel::Load(const char *filename)
 		fread(&m_joints[i].flags, sizeof(unsigned char), 1, fp);
 		fread(m_joints[i].name, sizeof(char), 32, fp);
 		fread(m_joints[i].parentName, sizeof(char), 32, fp);
+		m_joints[i].name[31] = '\0';
+		m_joints[i].parentName[31] = '\0';
         fread(m_joints[i].rot, sizeof(float), 3, fp);
         fread(m_joints[i].pos, sizeof(float), 3, fp);
     
