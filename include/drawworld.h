@@ -17,7 +17,7 @@ void TestApp::drawworld(){
 			for(int z=highint(0,playerzgridpos-worldtileviewrange); z<lowint(worldgridsizez,playerzgridpos+worldtileviewrange+1); z++){
 				int a=worldgrid[x][y][z][0];
 				int b=worldgrid[x][y][z][1];
-				if(a>0){
+				if(a>0 && worldtileinterleavedvertex[a][b] != NULL){
 					if(usetextures){										
 						glEnable(GL_TEXTURE_2D);
 						glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -40,7 +40,7 @@ void TestApp::drawworld(){
 	if(usetextures)glBindTexture(GL_TEXTURE_2D,wireframetexture);
 
 	//draw player
-	if(showplayer){
+	if(showplayer && playervertexarray != NULL){
 		playerms3dmodel.SetFrame(playerframe);
 		int vertnum=0;
 		int numGroups = playerms3dmodel.GetNumGroups();
@@ -83,10 +83,14 @@ void TestApp::drawworld(){
 		glRotatef(entitylist[x][y][z][a]->xang*degreesinradian,1,0,0);
 		glRotatef(entitylist[x][y][z][a]->yang*degreesinradian,0,1,0);
 		glRotatef(entitylist[x][y][z][a]->zang*degreesinradian,0,0,1);
-		glVertexPointer(3,GL_FLOAT,0,entityvertexarray[entitylist[x][y][z][a]->type]);
-		if(usetextures)glTexCoordPointer(2,GL_FLOAT,0,entitytexturearray[entitylist[x][y][z][a]->type]);
-		glNormalPointer(GL_FLOAT,0,entitynormalarray[entitylist[x][y][z][a]->type]);
-		glDrawArrays(GL_TRIANGLES,0,entityvertexcount[entitylist[x][y][z][a]->type]);
+		
+		int type = entitylist[x][y][z][a]->type;
+		if (entityvertexarray[type] != NULL) {
+			glVertexPointer(3,GL_FLOAT,0,entityvertexarray[type]);
+			if(usetextures)glTexCoordPointer(2,GL_FLOAT,0,entitytexturearray[type]);
+			glNormalPointer(GL_FLOAT,0,entitynormalarray[type]);
+			glDrawArrays(GL_TRIANGLES,0,entityvertexcount[type]);
+		}
 		glPopMatrix();
 	}
 
