@@ -183,9 +183,10 @@ void TestApp::play(float gamespeed){
 	judgment();
 
 	//Log file writer 
-	if(!start_motion)fprintf(pFile,"%3.4f,%3.4f,%3.4f,%3.4f,%3.4f,%3.4f,%.2f,%.2f,%1d,%d,%d,%.2f\n",playerxpos,playerypos,playerzpos,camxang,camyang,camzang,elapseddist,expectdist,judge_res,targ_char,pos_char,elapsedtime-start_move_time);
+	//Log file writer 
+	if(!start_motion && pFile)fprintf(pFile,"%3.4f,%3.4f,%3.4f,%3.4f,%3.4f,%3.4f,%.2f,%.2f,%1d,%d,%d,%.2f\n",playerxpos,playerypos,playerzpos,camxang,camyang,camzang,elapseddist,expectdist,judge_res,targ_char,pos_char,elapsedtime-start_move_time);
 
-	if(start_log){
+	if(start_log && pFile_2){
 		start_log=0;
 		L_pos_char=pos_char;
 		fprintf(pFile_2,"This is the interpreted Log file for %s\n\n",logfilename);
@@ -195,10 +196,10 @@ void TestApp::play(float gamespeed){
 	}
 
 	if(L_pos_char!=pos_char){
-		if(!start_motion)fprintf(pFile_2,"      %2.2f      |     %1d      |      %1d      |     %1d      |        %1d        |      %c      |      %c       |    %2.2f\n",elapseddist,(judge_res>>3)&0x01,(judge_res>>2)&0x01,(judge_res>>1)&0x01,judge_res&0x01,targ_char,pos_char,elapsedtime);
+		if(!start_motion && pFile_2)fprintf(pFile_2,"      %2.2f      |     %1d      |      %1d      |     %1d      |        %1d        |      %c      |      %c       |    %2.2f\n",elapseddist,(judge_res>>3)&0x01,(judge_res>>2)&0x01,(judge_res>>1)&0x01,judge_res&0x01,targ_char,pos_char,elapsedtime);
 
 		if(!((judge_res>>3)&0x01))
-			if(!start_motion)fprintf(pFile_3,"%2d,%2d,%1d,%1d,%1d,%2.2f,%2.2f\n",targ_char,pos_char,(judge_res>>2)&0x01,(judge_res>>1)&0x01,judge_res&0x01,elapseddist,elapsedtime);
+			if(!start_motion && pFile_3)fprintf(pFile_3,"%2d,%2d,%1d,%1d,%1d,%2.2f,%2.2f\n",targ_char,pos_char,(judge_res>>2)&0x01,(judge_res>>1)&0x01,judge_res&0x01,elapseddist,elapsedtime);
 	}
 
 	L_pos_char=pos_char;
