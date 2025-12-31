@@ -30,30 +30,46 @@ msModel::~msModel()
 
 bool msModel::Load(const char *filename)
 {
+	printf("DEBUG: msModel::Load() - opening file\n");
+	fflush(stdout);
 	FILE *fp = fopen(filename, "rb");
 	if (!fp)
 		return false;
 
+	printf("DEBUG: msModel::Load() - file opened, calling Clear()\n");
+	fflush(stdout);
 	Clear();
 
+	printf("DEBUG: msModel::Load() - getting file size\n");
+	fflush(stdout);
 	fseek(fp, 0, SEEK_END);
 	long fileSize = ftell(fp);
 	fseek(fp, 0, SEEK_SET);
+	printf("DEBUG: msModel::Load() - file size: %ld bytes\n", fileSize);
+	fflush(stdout);
 
+	printf("DEBUG: msModel::Load() - reading header\n");
+	fflush(stdout);
 	char id[10];
 	fread(id, sizeof(char), 10, fp);
 	if (strncmp(id, "MS3D000000", 10) != 0)
 	{
 		fclose(fp);
+		printf("ERROR: msModel::Load() - invalid MS3D header\n");
+		fflush(stdout);
 		// "This is not a valid MS3D file format!"
 		return false;
 	}
 
+	printf("DEBUG: msModel::Load() - reading version\n");
+	fflush(stdout);
 	int version;
 	fread(&version, sizeof(int), 1, fp);
 	if (version != 4)
 	{
 		fclose(fp);
+		printf("ERROR: msModel::Load() - invalid version: %d\n", version);
+		fflush(stdout);
 		// "This is not a valid MS3D file version!"
 		return false;
 	}
@@ -61,8 +77,12 @@ bool msModel::Load(const char *filename)
 	int i, j;
 
 	// vertices
+	printf("DEBUG: msModel::Load() - reading vertices\n");
+	fflush(stdout);
 	unsigned short numVertices;
 	fread(&numVertices, sizeof(unsigned short), 1, fp);
+	printf("DEBUG: msModel::Load() - numVertices: %d\n", numVertices);
+	fflush(stdout);
 	m_vertices.resize(numVertices);
 	for (i = 0; i < numVertices; i++)
 	{
