@@ -259,6 +259,20 @@ void TestApp::setupmedia(){
 			entitytexturearray[a],
 			entitynormalarray[a],
 			entityvertexcount[a],1.0);
+		
+		// CRITICAL FIX: Skip processing if file failed to load
+		if (entityvertexcount[a] == 0 || entityvertexarray[a] == NULL) {
+			printf("WARNING: Skipping entity %d - failed to load OBJ file\n", a);
+			fflush(stdout);
+			// Initialize all pointers to NULL for safety
+			entityvertexarray[a] = NULL;
+			entitytexturearray[a] = NULL;
+			entitynormalarray[a] = NULL;
+			entityinterleavedvertex[a] = NULL;
+			entitycollisionmesh[a] = NULL;
+			continue;
+		}
+		
 		//rig the texture coordinates
 		for(int b=0; b<entityvertexcount[a]/3; b++){
 			entitytexturearray[a][b*3*2+0]=0;
