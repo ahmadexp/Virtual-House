@@ -295,6 +295,8 @@ bool msModel::Load(const char *filename)
 	}
 
 	// comments
+	printf("DEBUG: msModel::Load() - checking for comments\n");
+	fflush(stdout);
 	long filePos = ftell(fp);
 	if (filePos < fileSize)
 	{
@@ -306,6 +308,8 @@ bool msModel::Load(const char *filename)
 			size_t commentSize = 0;
 
 			// group comments
+			printf("DEBUG: msModel::Load() - reading group comments\n");
+			fflush(stdout);
 			fread(&numComments, sizeof(int), 1, fp); 
 			for (i = 0; i < numComments; i++)
 			{
@@ -321,6 +325,8 @@ bool msModel::Load(const char *filename)
 			}
 
 			// material comments
+			printf("DEBUG: msModel::Load() - reading material comments\n");
+			fflush(stdout);
 			fread(&numComments, sizeof(int), 1, fp); 
 			for (i = 0; i < numComments; i++)
 			{
@@ -336,6 +342,8 @@ bool msModel::Load(const char *filename)
 			}
 
 			// joint comments
+			printf("DEBUG: msModel::Load() - reading joint comments\n");
+			fflush(stdout);
 			fread(&numComments, sizeof(int), 1, fp); 
 			for (i = 0; i < numComments; i++)
 			{
@@ -351,6 +359,8 @@ bool msModel::Load(const char *filename)
 			}
 
 			// model comments
+			printf("DEBUG: msModel::Load() - reading model comments\n");
+			fflush(stdout);
 			fread(&numComments, sizeof(int), 1, fp);
 			if (numComments == 1)
 			{
@@ -364,11 +374,14 @@ bool msModel::Load(const char *filename)
 		}
 		else
 		{
-			// "Unknown subversion for comments %d\n", subVersion);
+			printf("DEBUG: msModel::Load() - Unknown subversion for comments %d\n", subVersion);
+			fflush(stdout);
 		}
 	}
 
 	// vertex extra
+	printf("DEBUG: msModel::Load() - checking for vertex extra\n");
+	fflush(stdout);
 	filePos = ftell(fp);
 	if (filePos < fileSize)
 	{
@@ -393,11 +406,14 @@ bool msModel::Load(const char *filename)
 		}
 		else
 		{
-			// "Unknown subversion for vertex extra %d\n", subVersion);
+			printf("DEBUG: msModel::Load() - Unknown subversion for vertex extra %d\n", subVersion);
+			fflush(stdout);
 		}
 	}
 
 	// joint extra
+	printf("DEBUG: msModel::Load() - checking for joint extra\n");
+	fflush(stdout);
 	filePos = ftell(fp);
 	if (filePos < fileSize)
 	{
@@ -412,11 +428,14 @@ bool msModel::Load(const char *filename)
 		}
 		else
 		{
-			// "Unknown subversion for joint extra %d\n", subVersion);
+			printf("DEBUG: msModel::Load() - Unknown subversion for joint extra %d\n", subVersion);
+			fflush(stdout);
 		}
 	}
 
 	// model extra
+	printf("DEBUG: msModel::Load() - checking for model extra\n");
+	fflush(stdout);
 	filePos = ftell(fp);
 	if (filePos < fileSize)
 	{
@@ -430,10 +449,13 @@ bool msModel::Load(const char *filename)
 		}
 		else
 		{
-			//"Unknown subversion for model extra %d\n", subVersion);
+			printf("DEBUG: msModel::Load() - Unknown subversion for model extra %d\n", subVersion);
+			fflush(stdout);
 		}
 	}
 
+	printf("DEBUG: msModel::Load() - closing file and returning true\n");
+	fflush(stdout);
 	fclose(fp);
 
 	return true;
