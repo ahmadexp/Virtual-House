@@ -507,6 +507,8 @@ void TestApp::setupgame(){
 
 	//generate the mini map
 	minimaptexture=genminimap();
+	printf("DEBUG: genminimap() returned\n");
+	fflush(stdout);
 
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
@@ -539,5 +541,8 @@ void TestApp::setupgame(){
 	glLightfv(GL_LIGHT0,GL_SPECULAR,light_specular0);
 
 	
+
+	printf("DEBUG: setupgame() finished\n");
+	fflush(stdout);
 
 }
