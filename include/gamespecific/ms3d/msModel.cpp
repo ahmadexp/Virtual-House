@@ -83,14 +83,35 @@ bool msModel::Load(const char *filename)
 	fread(&numVertices, sizeof(unsigned short), 1, fp);
 	printf("DEBUG: msModel::Load() - numVertices: %d\n", numVertices);
 	fflush(stdout);
-	m_vertices.resize(numVertices);
+	
+	printf("DEBUG: msModel::Load() - about to resize m_vertices to %d\n", numVertices);
+	fflush(stdout);
+	try {
+		m_vertices.resize(numVertices);
+		printf("DEBUG: msModel::Load() - m_vertices resized successfully\n");
+		fflush(stdout);
+	} catch (const std::exception& e) {
+		printf("ERROR: msModel::Load() - failed to resize m_vertices: %s\n", e.what());
+		fflush(stdout);
+		fclose(fp);
+		return false;
+	}
+	
+	printf("DEBUG: msModel::Load() - reading vertex data\n");
+	fflush(stdout);
 	for (i = 0; i < numVertices; i++)
 	{
+		if (i % 500 == 0) {
+			printf("DEBUG: msModel::Load() - reading vertex %d/%d\n", i, numVertices);
+			fflush(stdout);
+		}
 		fread(&m_vertices[i].flags, sizeof(unsigned char), 1, fp);
 		fread(&m_vertices[i].vertex, sizeof(float), 3, fp);
 		fread(&m_vertices[i].boneId, sizeof(char), 1, fp);
 		fread(&m_vertices[i].referenceCount, sizeof(unsigned char), 1, fp);
 	}
+	printf("DEBUG: msModel::Load() - finished reading vertices\n");
+	fflush(stdout);
 
 	// triangles
 	unsigned short numTriangles;
