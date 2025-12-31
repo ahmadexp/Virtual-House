@@ -72,8 +72,6 @@ GLuint genminimap(){
 		}
 	}
 
-	printf("DEBUG: genminimap() - loop finished\n");
-	fflush(stdout);
 
 	GLuint texturename;
 	glPixelStorei(GL_UNPACK_ALIGNMENT,1);	
@@ -87,8 +85,6 @@ GLuint genminimap(){
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,xsize,zsize, 
 		0,GL_RGB,GL_UNSIGNED_BYTE,texturedata);
-	printf("DEBUG: genminimap() - GL texture created\n");
-	fflush(stdout);
 
 	///////////////////////////////////////////////////////////////////////////save mipmap
 	/*char* filename = (char*)"test.bmp";
@@ -156,8 +152,6 @@ GLuint genminimap(){
 	///////////////////////////////////////////////////////////////////////////save mipmap
 
 	delete[] texturedata;
-	printf("DEBUG: genminimap() - texturedata deleted\n");
-	fflush(stdout);
 
 	minimaptexturexuse=(float)worldgridsizex/(float)xsize;
 	minimaptexturezuse=(float)worldgridsizez/(float)zsize;

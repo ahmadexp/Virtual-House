@@ -30,46 +30,32 @@ msModel::~msModel()
 
 bool msModel::Load(const char *filename)
 {
-	printf("DEBUG: msModel::Load() - opening file\n");
-	fflush(stdout);
 	FILE *fp = fopen(filename, "rb");
 	if (!fp)
 		return false;
 
-	printf("DEBUG: msModel::Load() - file opened, calling Clear()\n");
-	fflush(stdout);
 	Clear();
 
-	printf("DEBUG: msModel::Load() - getting file size\n");
-	fflush(stdout);
 	fseek(fp, 0, SEEK_END);
 	long fileSize = ftell(fp);
 	fseek(fp, 0, SEEK_SET);
-	printf("DEBUG: msModel::Load() - file size: %ld bytes\n", fileSize);
-	fflush(stdout);
 
-	printf("DEBUG: msModel::Load() - reading header\n");
-	fflush(stdout);
 	char id[10];
 	fread(id, sizeof(char), 10, fp);
 	if (strncmp(id, "MS3D000000", 10) != 0)
 	{
 		fclose(fp);
 		printf("ERROR: msModel::Load() - invalid MS3D header\n");
-		fflush(stdout);
 		// "This is not a valid MS3D file format!"
 		return false;
 	}
 
-	printf("DEBUG: msModel::Load() - reading version\n");
-	fflush(stdout);
 	int version;
 	fread(&version, sizeof(int), 1, fp);
 	if (version != 4)
 	{
 		fclose(fp);
 		printf("ERROR: msModel::Load() - invalid version: %d\n", version);
-		fflush(stdout);
 		// "This is not a valid MS3D file version!"
 		return false;
 	}
@@ -77,28 +63,17 @@ bool msModel::Load(const char *filename)
 	int i, j;
 
 	// vertices
-	printf("DEBUG: msModel::Load() - reading vertices\n");
-	fflush(stdout);
 	unsigned short numVertices;
 	fread(&numVertices, sizeof(unsigned short), 1, fp);
-	printf("DEBUG: msModel::Load() - numVertices: %d\n", numVertices);
-	fflush(stdout);
 	
-	printf("DEBUG: msModel::Load() - about to resize m_vertices to %d\n", numVertices);
-	fflush(stdout);
 	try {
 		m_vertices.resize(numVertices);
-		printf("DEBUG: msModel::Load() - m_vertices resized successfully\n");
-		fflush(stdout);
 	} catch (const std::exception& e) {
 		printf("ERROR: msModel::Load() - failed to resize m_vertices: %s\n", e.what());
-		fflush(stdout);
 		fclose(fp);
 		return false;
 	}
 	
-	printf("DEBUG: msModel::Load() - reading vertex data\n");
-	fflush(stdout);
 	for (i = 0; i < numVertices; i++)
 	{
 
@@ -107,24 +82,15 @@ bool msModel::Load(const char *filename)
 		fread(&m_vertices[i].boneId, sizeof(char), 1, fp);
 		fread(&m_vertices[i].referenceCount, sizeof(unsigned char), 1, fp);
 	}
-	printf("DEBUG: msModel::Load() - finished reading vertices\n");
-	fflush(stdout);
 
 	// triangles
-	printf("DEBUG: msModel::Load() - reading triangles\n");
-	fflush(stdout);
 	unsigned short numTriangles;
 	fread(&numTriangles, sizeof(unsigned short), 1, fp);
-	printf("DEBUG: msModel::Load() - numTriangles: %d\n", numTriangles);
-	fflush(stdout);
 
 	try {
 		m_triangles.resize(numTriangles);
-		printf("DEBUG: msModel::Load() - m_triangles resized successfully\n");
-		fflush(stdout);
 	} catch (const std::exception& e) {
 		printf("ERROR: msModel::Load() - failed to resize m_triangles: %s\n", e.what());
-		fflush(stdout);
 		fclose(fp);
 		return false;
 	}
@@ -142,44 +108,32 @@ bool msModel::Load(const char *filename)
 
 		// TODO: calculate triangle normal
 	}
-	printf("DEBUG: msModel::Load() - finished reading triangles\n");
-	fflush(stdout);
 
 	// groups
-	printf("DEBUG: msModel::Load() - reading groups\n");
-	fflush(stdout);
 	unsigned short numGroups;
 	fread(&numGroups, sizeof(unsigned short), 1, fp);
-	printf("DEBUG: msModel::Load() - numGroups: %d\n", numGroups);
-	fflush(stdout);
 
 	try {
 		m_groups.resize(numGroups);
 	} catch (const std::exception& e) {
 		printf("ERROR: msModel::Load() - failed to resize m_groups: %s\n", e.what());
-		fflush(stdout);
 		fclose(fp);
 		return false;
 	}
 
 	for (i = 0; i < numGroups; i++)
 	{
-		printf("DEBUG: msModel::Load() - reading group %d/%d\n", i, numGroups);
-		fflush(stdout);
 		fread(&m_groups[i].flags, sizeof(unsigned char), 1, fp);
 		fread(m_groups[i].name, sizeof(char), 32, fp);
 		m_groups[i].name[31] = '\0';
 
 		unsigned short numGroupTriangles;
 		fread(&numGroupTriangles, sizeof(unsigned short), 1, fp);
-		printf("DEBUG: msModel::Load() - group %d has %d triangles\n", i, numGroupTriangles);
-		fflush(stdout);
 		
 		try {
 			m_groups[i].triangleIndices.resize(numGroupTriangles);
 		} catch (const std::exception& e) {
 			printf("ERROR: msModel::Load() - failed to resize triangleIndices: %s\n", e.what());
-			fflush(stdout);
 			fclose(fp);
 			return false;
 		}
@@ -191,18 +145,13 @@ bool msModel::Load(const char *filename)
 	}
 
 	// materials
-	printf("DEBUG: msModel::Load() - reading materials\n");
-	fflush(stdout);
 	unsigned short numMaterials;
 	fread(&numMaterials, sizeof(unsigned short), 1, fp);
-	printf("DEBUG: msModel::Load() - numMaterials: %d\n", numMaterials);
-	fflush(stdout);
 
 	try {
 		m_materials.resize(numMaterials);
 	} catch (const std::exception& e) {
 		printf("ERROR: msModel::Load() - failed to resize m_materials: %s\n", e.what());
-		fflush(stdout);
 		fclose(fp);
 		return false;
 	}
@@ -231,8 +180,6 @@ bool msModel::Load(const char *filename)
 	}
 
 	// animation
-	printf("DEBUG: msModel::Load() - reading animation info\n");
-	fflush(stdout);
 	fread(&m_animationFps, sizeof(float), 1, fp);
 	if (m_animationFps < 1.0f)
 		m_animationFps = 1.0f;
@@ -240,26 +187,19 @@ bool msModel::Load(const char *filename)
 	fread(&m_totalFrames, sizeof(int), 1, fp);
 
 	// joints
-	printf("DEBUG: msModel::Load() - reading joints\n");
-	fflush(stdout);
 	unsigned short numJoints;
 	fread(&numJoints, sizeof(unsigned short), 1, fp);
-	printf("DEBUG: msModel::Load() - numJoints: %d\n", numJoints);
-	fflush(stdout);
 
 	try {
 		m_joints.resize(numJoints);
 	} catch (const std::exception& e) {
 		printf("ERROR: msModel::Load() - failed to resize m_joints: %s\n", e.what());
-		fflush(stdout);
 		fclose(fp);
 		return false;
 	}
 
 	for (i = 0; i < numJoints; i++)
 	{
-		printf("DEBUG: msModel::Load() - reading joint %d/%d\n", i, numJoints);
-		fflush(stdout);
 		fread(&m_joints[i].flags, sizeof(unsigned char), 1, fp);
 		fread(m_joints[i].name, sizeof(char), 32, fp);
 		fread(m_joints[i].parentName, sizeof(char), 32, fp);
@@ -295,8 +235,6 @@ bool msModel::Load(const char *filename)
 	}
 
 	// comments
-	printf("DEBUG: msModel::Load() - checking for comments\n");
-	fflush(stdout);
 	long filePos = ftell(fp);
 	if (filePos < fileSize)
 	{
@@ -308,8 +246,6 @@ bool msModel::Load(const char *filename)
 			size_t commentSize = 0;
 
 			// group comments
-			printf("DEBUG: msModel::Load() - reading group comments\n");
-			fflush(stdout);
 			fread(&numComments, sizeof(int), 1, fp); 
 			for (i = 0; i < numComments; i++)
 			{
@@ -325,8 +261,6 @@ bool msModel::Load(const char *filename)
 			}
 
 			// material comments
-			printf("DEBUG: msModel::Load() - reading material comments\n");
-			fflush(stdout);
 			fread(&numComments, sizeof(int), 1, fp); 
 			for (i = 0; i < numComments; i++)
 			{
@@ -342,8 +276,6 @@ bool msModel::Load(const char *filename)
 			}
 
 			// joint comments
-			printf("DEBUG: msModel::Load() - reading joint comments\n");
-			fflush(stdout);
 			fread(&numComments, sizeof(int), 1, fp); 
 			for (i = 0; i < numComments; i++)
 			{
@@ -359,8 +291,6 @@ bool msModel::Load(const char *filename)
 			}
 
 			// model comments
-			printf("DEBUG: msModel::Load() - reading model comments\n");
-			fflush(stdout);
 			fread(&numComments, sizeof(int), 1, fp);
 			if (numComments == 1)
 			{
@@ -374,14 +304,10 @@ bool msModel::Load(const char *filename)
 		}
 		else
 		{
-			printf("DEBUG: msModel::Load() - Unknown subversion for comments %d\n", subVersion);
-			fflush(stdout);
 		}
 	}
 
 	// vertex extra
-	printf("DEBUG: msModel::Load() - checking for vertex extra\n");
-	fflush(stdout);
 	filePos = ftell(fp);
 	if (filePos < fileSize)
 	{
@@ -406,14 +332,10 @@ bool msModel::Load(const char *filename)
 		}
 		else
 		{
-			printf("DEBUG: msModel::Load() - Unknown subversion for vertex extra %d\n", subVersion);
-			fflush(stdout);
 		}
 	}
 
 	// joint extra
-	printf("DEBUG: msModel::Load() - checking for joint extra\n");
-	fflush(stdout);
 	filePos = ftell(fp);
 	if (filePos < fileSize)
 	{
@@ -428,14 +350,10 @@ bool msModel::Load(const char *filename)
 		}
 		else
 		{
-			printf("DEBUG: msModel::Load() - Unknown subversion for joint extra %d\n", subVersion);
-			fflush(stdout);
 		}
 	}
 
 	// model extra
-	printf("DEBUG: msModel::Load() - checking for model extra\n");
-	fflush(stdout);
 	filePos = ftell(fp);
 	if (filePos < fileSize)
 	{
@@ -449,13 +367,9 @@ bool msModel::Load(const char *filename)
 		}
 		else
 		{
-			printf("DEBUG: msModel::Load() - Unknown subversion for model extra %d\n", subVersion);
-			fflush(stdout);
 		}
 	}
 
-	printf("DEBUG: msModel::Load() - closing file and returning true\n");
-	fflush(stdout);
 	fclose(fp);
 
 	return true;
