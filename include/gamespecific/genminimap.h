@@ -1,4 +1,6 @@
 GLuint genminimap(){
+	printf("DEBUG: genminimap() entered\n");
+	fflush(stdout);
 
 	int powoftwo;
 
@@ -36,10 +38,10 @@ GLuint genminimap(){
 			texturedata[zoffset+xoffset+2] = (GLubyte) 50;
 		}
 		//metro/sidewalk
-		if((worldgrid[x][streetlevel-1][z-1][0]==5 && worldgrid[x][streetlevel-1][z-1][1]==0)
-		|| (worldgrid[x][streetlevel-1][z+1][0]==5 && worldgrid[x][streetlevel-1][z+1][1]==2)
-		|| (worldgrid[x+1][streetlevel-1][z][0]==5 && worldgrid[x+1][streetlevel-1][z][1]==3)
-		|| (worldgrid[x-1][streetlevel-1][z][0]==5 && worldgrid[x-1][streetlevel-1][z][1]==1)){
+		if((z > 0 && worldgrid[x][streetlevel-1][z-1][0]==5 && worldgrid[x][streetlevel-1][z-1][1]==0)
+		|| (z < worldgridsizez-1 && worldgrid[x][streetlevel-1][z+1][0]==5 && worldgrid[x][streetlevel-1][z+1][1]==2)
+		|| (x < worldgridsizex-1 && worldgrid[x+1][streetlevel-1][z][0]==5 && worldgrid[x+1][streetlevel-1][z][1]==3)
+		|| (x > 0 && worldgrid[x-1][streetlevel-1][z][0]==5 && worldgrid[x-1][streetlevel-1][z][1]==1)){
 			texturedata[zoffset+xoffset+0] = (GLubyte) 50;
 			texturedata[zoffset+xoffset+1] = (GLubyte) 50;
 			texturedata[zoffset+xoffset+2] = (GLubyte) 50;
