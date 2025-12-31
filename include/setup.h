@@ -349,8 +349,6 @@ void TestApp::setupmedia(){
 			playertexturearray[b*3*2+5]=1;
 		}
 	}
-	printf("DEBUG: setup.h - loadms3d returned and processed\n");
-	fflush(stdout);
 
 	//load water mesh
 	/*sprintf(filename,"%s%s",mediadir,"water.obj");
