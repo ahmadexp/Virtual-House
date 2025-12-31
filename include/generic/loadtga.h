@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <cstdint>
+#include <cstring>
 
 uint16_t ByteSwap4 (uint16_t nValue){
 	//http://www.codeproject.com/KB/cpp/endianness.aspx
@@ -8,7 +9,7 @@ uint16_t ByteSwap4 (uint16_t nValue){
 
 GLuint loadtga(char* filename,bool mipmap){
 
-	unsigned char	header[12] = { 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	unsigned char	actualHeader[12];
 	unsigned char	bpp = 32;
 	unsigned char	id = 8;
 	unsigned short	width;
@@ -16,35 +17,115 @@ GLuint loadtga(char* filename,bool mipmap){
 	unsigned char	*pPixels = NULL;
 	FILE	*fp = NULL;
 
-	// printf("DEBUG: loadtga() - about to open '%s'\n", filename);
-	// fflush(stdout);
+	printf("DEBUG: loadtga() - about to open '%s'\n", filename);
+	fflush(stdout);
 	
 	fp = fopen(filename,"rb");  // FIXED: use "rb" for binary mode!
 	
 	if (!fp) {
-		// printf("ERROR: loadtga() - failed to open '%s'\n", filename);
-		// fflush(stdout);
+		printf("ERROR: loadtga() - failed to open '%s'\n", filename);
+		fflush(stdout);
 		return 0;
 	}
 	
-	// printf("DEBUG: loadtga() - file opened successfully\n");
-	// fflush(stdout);
+	printf("DEBUG: loadtga() - file opened successfully\n");
+	fflush(stdout);
 
-	fread(header,sizeof(unsigned char),12,fp);
-	fread(&width,sizeof(unsigned short),1,fp);
-	fread(&height,sizeof(unsigned short),1,fp);
-	fread(&bpp,sizeof(unsigned char),1,fp);
-	fread(&id,sizeof(unsigned char),1,fp);
+	// Read and validate header
+	size_t headerRead = fread(actualHeader,sizeof(unsigned char),12,fp);
+	if (headerRead != 12) {
+		printf("ERROR: loadtga() - failed to read header (got %zu bytes)\n", headerRead);
+		fflush(stdout);
+		fclose(fp);
+		return 0;
+	}
+	
+	// Read dimensions
+	if (fread(&width,sizeof(unsigned short),1,fp) != 1 ||
+	    fread(&height,sizeof(unsigned short),1,fp) != 1 ||
+	    fread(&bpp,sizeof(unsigned char),1,fp) != 1 ||
+	    fread(&id,sizeof(unsigned char),1,fp) != 1) {
+		printf("ERROR: loadtga() - failed to read image dimensions\n");
+		fflush(stdout);
+		fclose(fp);
+		return 0;
+	}
 	
 	printf("DEBUG: loadtga() - width=%u height=%u bpp=%u id=%u\n", width, height, bpp, id);
 	fflush(stdout);
+	
+	// Validate dimensions to prevent huge allocations
+	if (width == 0 || height == 0 || width > 8192 || height > 8192) {
+		printf("ERROR: loadtga() - invalid dimensions: %ux%u\n", width, height);
+		fflush(stdout);
+		fclose(fp);
+		return 0;
+	}
+	
+	// Validate bpp
+	if (bpp != 24 && bpp != 32) {
+		printf("ERROR: loadtga() - unsupported bpp: %u (only 24 and 32 supported)\n", bpp);
+		fflush(stdout);
+		fclose(fp);
+		return 0;
+	}
+	
+	// Calculate bytes per pixel
+	int bytesPerPixel = bpp / 8;
+	size_t imageSize = width * height * bytesPerPixel;
+	
+	printf("DEBUG: loadtga() - allocating %zu bytes for image data\n", imageSize);
+	fflush(stdout);
 
-	pPixels = new unsigned char[width * height * 4];
-	fread(pPixels, 4, width * height, fp);
+	// Allocate buffer for actual image data
+	unsigned char *rawPixels = new unsigned char[imageSize];
+	if (!rawPixels) {
+		printf("ERROR: loadtga() - failed to allocate %zu bytes\n", imageSize);
+		fflush(stdout);
+		fclose(fp);
+		return 0;
+	}
+	
+	// Read pixel data
+	size_t bytesRead = fread(rawPixels, 1, imageSize, fp);
 	fclose(fp);
 	
-	// printf("DEBUG: loadtga() - read pixels, creating OpenGL texture\n");
-	// fflush(stdout);
+	if (bytesRead != imageSize) {
+		printf("ERROR: loadtga() - expected %zu bytes but read %zu\n", imageSize, bytesRead);
+		fflush(stdout);
+		delete [] rawPixels;
+		return 0;
+	}
+	
+	printf("DEBUG: loadtga() - read %zu bytes successfully\n", bytesRead);
+	fflush(stdout);
+	
+	// Convert to RGBA if needed
+	pPixels = new unsigned char[width * height * 4];
+	if (!pPixels) {
+		printf("ERROR: loadtga() - failed to allocate RGBA buffer\n");
+		fflush(stdout);
+		delete [] rawPixels;
+		return 0;
+	}
+	
+	if (bpp == 32) {
+		// Already RGBA/BGRA, just copy
+		memcpy(pPixels, rawPixels, imageSize);
+	} else {
+		// Convert BGR to BGRA
+		for (size_t i = 0; i < width * height; i++) {
+			pPixels[i*4 + 0] = rawPixels[i*3 + 0]; // B
+			pPixels[i*4 + 1] = rawPixels[i*3 + 1]; // G
+			pPixels[i*4 + 2] = rawPixels[i*3 + 2]; // R
+			pPixels[i*4 + 3] = 255;                 // A
+		}
+	}
+	
+	delete [] rawPixels;
+	
+	printf("DEBUG: loadtga() - creating OpenGL texture\n");
+	fflush(stdout);
 
 	GLuint texName;
 	glPixelStorei(GL_UNPACK_ALIGNMENT,1);	
@@ -75,7 +156,7 @@ GLuint loadtga(char* filename,bool mipmap){
 	printf("DEBUG: loadtga() - about to delete[] pPixels\n");
 	fflush(stdout);
 	delete [] pPixels;
-	printf("DEBUG: loadtga() - delete[] pPixels succeeded\n");
+	printf("DEBUG: loadtga() - delete[] pPixels succeeded, returning texture %u\n", texName);
 	fflush(stdout);
 
 	return texName;
