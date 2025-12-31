@@ -1,6 +1,6 @@
 # Virtual House
 
-A 3D simulation environment built with C++ and OpenGL to study the cognitive spacial navigation ability of the player. This was part of my Ph.D. thesis. This project has been modernized to support cross-platform builds on macOS, Linux, and Windows using the Meson build system.
+A 3D simulation environment built with C++ and OpenGL to study the cognitive spatial navigation ability of the player. This was part of my Ph.D. thesis. This project has been modernized to support cross-platform builds on macOS, Linux, and Windows using the Meson build system.
 
 <img width="1278" height="746" alt="Screenshot 2025-12-25 at 7 41 56 PM" src="https://github.com/user-attachments/assets/e4e339f7-e844-4242-9ccf-f006ef602242" />
 
@@ -37,20 +37,20 @@ To run the application, executing the binary from the project root:
 **Common Flags:**
 - `/NOINFO`: Hide the information overlay.
 - `/TESTMODE`: Enable automated test mode.
-- `/AUTOEXIT`: Automatically exit after the simulation completes.
+- `/AUTOEXIT`: Automatically exit after reaching the goal.
 - `/USEMOUSE`: Enable free-look camera with the mouse.
-- `/AUTOEXIT`: Exits the game after reaching the goal.
+- `/SHOWPLAYER`: Show the player model (3rd person view).
 - `/USEJOYSTICK`: Enable joystick input.
 - `/TRIAL`: Allows to enter trial number.
 - `/LATENCY`: Adds input latency.
 - `/ALLOCENTRIC`: Enables 3rd person view where you can see the player.
 - `/JOYANGVEL`: Sets Joystick rotation velocity.
 - `/JOYTRANSVEL`: Sets joysticks traversion velocity.
-- `/LANGUAGE`: Sets langugae.
+- `/LANGUAGE n`: Sets language (1=English, 2=French, 3=Spanish, 4=German).
 - `/INOUTRATIO`: In vs Out ratio.
-- `/KIDMODE`: Kid mode.
-- `/ANIMSOUND`: Animal sound.
-- `/PERPSTAIR`: Proper Stairs vs Ramp.
+- `/KIDMODE`: Kid-friendly mode (required for animal sounds).
+- `/ANIMSOUND`: Play animal sound hints (requires `/KIDMODE`).
+- `/PERPSTAIR n`: Set stair/ramp type (1-6: 1=stairs 180°, 2=stairs 90°, 3=ramp 180°, 4=ramp 90°, 5=double stairs, 6=double ramps).
 - `/LOGTOTAL`: Logging everything.
 - `/NOTEXTURE`: Avoid using texture.
 - `/TURNDURATION`: Set turning about the house velocity.
@@ -59,6 +59,8 @@ Example:
 ```bash
 ./build/virtualhouse /USEMOUSE /NOINFO
 ```
+
+📖 **For detailed usage guide with examples, see [USAGE.md](USAGE.md)**
 
 ## Running Batch file for experiments
 
