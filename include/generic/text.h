@@ -61,13 +61,22 @@ void drawtext(float posx,float posy,char* text,float size){
 	posy-=0.0025*size;
 	int length=strlen(text);
 	for(int a=0;a<length;a++){
+		// CRITICAL FIX: Bounds check to prevent buffer overflow
+		// fonttexturecoords is [96][8], valid indices are 0-95
+		// text[a] should be in range [' ', ' '+95] i.e. [32, 127]
+		int charIndex = text[a] - ' ';
+		if (charIndex < 0 || charIndex >= 96) {
+			// Invalid character, skip or use space
+			charIndex = 0; // Use space character
+		}
+		
 		float verts[]={
 			posx,		posy,
 			posx+xsize,	posy,
 			posx+xsize,	posy+ysize,
 			posx,		posy+ysize,};
 		glVertexPointer(2,GL_FLOAT,0,verts);
-		glTexCoordPointer(2,GL_FLOAT,0,fonttexturecoords[text[a]-' ']);
+		glTexCoordPointer(2,GL_FLOAT,0,fonttexturecoords[charIndex]);
 		glDrawArrays(GL_QUADS,0,4);
 		posx+=xsize*0.625;
 	}

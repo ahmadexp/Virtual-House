@@ -44,31 +44,87 @@ GLuint loadbmp(char* filename,bool mipmap){
 
 	FILE	*fp = NULL;
 
+	printf("DEBUG: loadbmp() - opening '%s'\n", filename);
+	fflush(stdout);
+	
 	fp = fopen(filename,"rb");  // FIXED: use "rb" for binary mode!
 
-	if(fp==NULL)    //ahmad
-		return 0;     //ahmad
+	if(fp==NULL) {
+		printf("ERROR: loadbmp() - failed to open '%s'\n", filename);
+		fflush(stdout);
+		return 0;
+	}
 
-	fread(&Type,sizeof(uint16_t),1,fp);
-	fread(&Size,sizeof(uint32_t),1,fp);
-	fread(&Reserved1,sizeof(uint16_t),1,fp);
-	fread(&Reserved2,sizeof(uint16_t),1,fp);
-	fread(&OffBits,sizeof(uint32_t),1,fp);
-	fread(&StructSize,sizeof(uint32_t),1,fp);
-	fread(&Width,sizeof(uint32_t),1,fp);
-	fread(&Height,sizeof(uint32_t),1,fp);
-	fread(&Planes,sizeof(uint16_t),1,fp);
-	fread(&BitCount,sizeof(uint16_t),1,fp);
-	fread(&Compression,sizeof(uint32_t),1,fp);
-	fread(&SizeImage,sizeof(uint32_t),1,fp);
-	fread(&XPelsPerMeter,sizeof(int32_t),1,fp);
-	fread(&YPelsPerMeter,sizeof(int32_t),1,fp);
-	fread(&ClrUsed,sizeof(uint32_t),1,fp);
-	fread(&ClrImportant,sizeof(uint32_t),1,fp);
+	if (fread(&Type,sizeof(uint16_t),1,fp) != 1 ||
+	    fread(&Size,sizeof(uint32_t),1,fp) != 1 ||
+	    fread(&Reserved1,sizeof(uint16_t),1,fp) != 1 ||
+	    fread(&Reserved2,sizeof(uint16_t),1,fp) != 1 ||
+	    fread(&OffBits,sizeof(uint32_t),1,fp) != 1 ||
+	    fread(&StructSize,sizeof(uint32_t),1,fp) != 1 ||
+	    fread(&Width,sizeof(uint32_t),1,fp) != 1 ||
+	    fread(&Height,sizeof(uint32_t),1,fp) != 1 ||
+	    fread(&Planes,sizeof(uint16_t),1,fp) != 1 ||
+	    fread(&BitCount,sizeof(uint16_t),1,fp) != 1 ||
+	    fread(&Compression,sizeof(uint32_t),1,fp) != 1 ||
+	    fread(&SizeImage,sizeof(uint32_t),1,fp) != 1 ||
+	    fread(&XPelsPerMeter,sizeof(int32_t),1,fp) != 1 ||
+	    fread(&YPelsPerMeter,sizeof(int32_t),1,fp) != 1 ||
+	    fread(&ClrUsed,sizeof(uint32_t),1,fp) != 1 ||
+	    fread(&ClrImportant,sizeof(uint32_t),1,fp) != 1) {
+		printf("ERROR: loadbmp() - failed to read BMP header\n");
+		fflush(stdout);
+		fclose(fp);
+		return 0;
+	}
 
-	pPixels = new unsigned char[Width * Height * BitCount];
-	fread(pPixels, BitCount, Width * Height, fp);
+	printf("DEBUG: loadbmp() - Width=%u Height=%u BitCount=%u\n", Width, Height, BitCount);
+	fflush(stdout);
+
+	// Validate dimensions
+	if (Width == 0 || Height == 0 || Width > 8192 || Height > 8192) {
+		printf("ERROR: loadbmp() - invalid dimensions: %ux%u\n", Width, Height);
+		fflush(stdout);
+		fclose(fp);
+		return 0;
+	}
+
+	// Validate BitCount
+	if (BitCount != 24 && BitCount != 32) {
+		printf("ERROR: loadbmp() - unsupported BitCount: %u (only 24 and 32 supported)\n", BitCount);
+		fflush(stdout);
+		fclose(fp);
+		return 0;
+	}
+
+	// Calculate bytes per pixel (FIXED: was using BitCount directly!)
+	int bytesPerPixel = BitCount / 8;
+	size_t imageSize = Width * Height * bytesPerPixel;
+	
+	printf("DEBUG: loadbmp() - allocating %zu bytes (%u x %u x %d)\n", 
+	       imageSize, Width, Height, bytesPerPixel);
+	fflush(stdout);
+
+	pPixels = new unsigned char[imageSize];
+	if (!pPixels) {
+		printf("ERROR: loadbmp() - failed to allocate %zu bytes\n", imageSize);
+		fflush(stdout);
+		fclose(fp);
+		return 0;
+	}
+	
+	// Read pixel data (FIXED: was using BitCount as element size!)
+	size_t bytesRead = fread(pPixels, 1, imageSize, fp);
 	fclose(fp);
+	
+	if (bytesRead != imageSize) {
+		printf("ERROR: loadbmp() - expected %zu bytes but read %zu\n", imageSize, bytesRead);
+		fflush(stdout);
+		delete [] pPixels;
+		return 0;
+	}
+	
+	printf("DEBUG: loadbmp() - read %zu bytes successfully, creating texture\n", bytesRead);
+	fflush(stdout);
 
 	GLuint texName;
 	glGenTextures(1,&texName);
@@ -78,13 +134,6 @@ GLuint loadbmp(char* filename,bool mipmap){
 	if(mipmap){
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);
-		/*if(BitCount==16)
-			gluBuild2DMipmaps(GL_TEXTURE_2D,GL_RGB16,Width,Height,
-			#ifdef WIN32
-			GL_BGR_EXT,GL_UNSIGNED_BYTE,pPixels);
-			#else
-			GL_BGR,GL_UNSIGNED_BYTE,pPixels);
-			#endif*/
 		if(BitCount==24)
 			gluBuild2DMipmaps(GL_TEXTURE_2D,GL_RGB,Width,Height,
 			#ifdef WIN32
@@ -98,13 +147,6 @@ GLuint loadbmp(char* filename,bool mipmap){
 	}else{
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-		/*if(BitCount==16)
-			glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,Width,Height,
-			#ifdef WIN32
-			0,GL_BGR_EXT,GL_UNSIGNED_BYTE,pPixels);
-			#else
-			0,GL_BGR,GL_UNSIGNED_BYTE,pPixels);
-			#endif*/
 		if(BitCount==24)
 			glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,Width,Height,
 			#ifdef WIN32
@@ -117,6 +159,8 @@ GLuint loadbmp(char* filename,bool mipmap){
 			0,GL_BGRA,GL_UNSIGNED_BYTE,pPixels);
 	}
 
+	printf("DEBUG: loadbmp() - deleting buffer, returning texture %u\n", texName);
+	fflush(stdout);
 	delete [] pPixels;
 
 	return texName;
