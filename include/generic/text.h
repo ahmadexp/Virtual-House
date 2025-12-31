@@ -47,6 +47,19 @@ void setuptext(){
 }
 
 void drawtext(float posx,float posy,char* text,float size){
+	
+	// Safety check: if font texture failed to load or text is null, don't crash
+	if (fonttexture == 0) {
+		printf("WARNING: drawtext() - fonttexture is 0, skipping\n");
+		fflush(stdout);
+		return;
+	}
+	
+	if (!text) {
+		printf("WARNING: drawtext() - text pointer is NULL, skipping\n");
+		fflush(stdout);
+		return;
+	}
 
 	glEnable(GL_BLEND);
 	glEnable(GL_ALPHA_TEST);
