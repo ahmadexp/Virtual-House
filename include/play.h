@@ -236,19 +236,26 @@ void TestApp::play(float gamespeed){
 	for(int x=lowx; x<highx; x++)
 		for(int y=lowy; y<highy; y++)
 			for(int z=lowz; z<highz; z++){
-				if(worldgrid[x][y][z][0])
-					spherebumpmesh(playerxpos,playerypos,playerzpos,1.25,
-					x*worldtilesize,y*worldtilesize,z*worldtilesize,0,
-					worldtilecollisionmesh[(int)worldgrid[x][y][z][0]][(int)worldgrid[x][y][z][1]],1,0);
+				if(worldgrid[x][y][z][0]){
+					int tileA = (int)worldgrid[x][y][z][0];
+					int tileB = (int)worldgrid[x][y][z][1];
+					if (worldtilecollisionmesh[tileA][tileB] != NULL) {
+						spherebumpmesh(playerxpos,playerypos,playerzpos,1.25,
+						x*worldtilesize,y*worldtilesize,z*worldtilesize,0,
+						worldtilecollisionmesh[tileA][tileB],1,0);
+					}
+				}
 
 				for(int a=0; a<entitycount[x][y][z]; a++){
 					if(entitytypesolid[entitylist[x][y][z][a]->type]==1){
-						spherebumpmesh(playerxpos,playerypos,playerzpos,1.25,
-						entitylist[x][y][z][a]->xpos,
-						entitylist[x][y][z][a]->ypos,
-						entitylist[x][y][z][a]->zpos,
-						entitylist[x][y][z][a]->yang,
-						entitycollisionmesh[entitylist[x][y][z][a]->type],1,0);
+						if (entitycollisionmesh[entitylist[x][y][z][a]->type] != NULL) {
+							spherebumpmesh(playerxpos,playerypos,playerzpos,1.25,
+							entitylist[x][y][z][a]->xpos,
+							entitylist[x][y][z][a]->ypos,
+							entitylist[x][y][z][a]->zpos,
+							entitylist[x][y][z][a]->yang,
+							entitycollisionmesh[entitylist[x][y][z][a]->type],1,0);
+						}
 					}
 				}
 			}
@@ -257,18 +264,25 @@ void TestApp::play(float gamespeed){
 		for(int y=lowy; y<highy; y++)
 			for(int z=lowz; z<highz; z++)
 				if(worldgrid[x][y][z][0]){
-					if(worldgrid[x][y][z][0])
-						spherebumpmesh(playerxpos,playerypos,playerzpos,1.25,
-						x*worldtilesize,y*worldtilesize,z*worldtilesize,0,
-						worldtilecollisionmesh[(int)worldgrid[x][y][z][0]][(int)worldgrid[x][y][z][1]],0,1);
+					if(worldgrid[x][y][z][0]){
+						int tileA = (int)worldgrid[x][y][z][0];
+						int tileB = (int)worldgrid[x][y][z][1];
+						if(worldtilecollisionmesh[tileA][tileB] != NULL){
+							spherebumpmesh(playerxpos,playerypos,playerzpos,1.25,
+							x*worldtilesize,y*worldtilesize,z*worldtilesize,0,
+							worldtilecollisionmesh[tileA][tileB],0,1);
+						}
+					}
 					for(int a=0; a<entitycount[x][y][z]; a++){
 						if(entitytypesolid[entitylist[x][y][z][a]->type]==1){
-							spherebumpmesh(playerxpos,playerypos,playerzpos,1.25,
-							entitylist[x][y][z][a]->xpos,
-							entitylist[x][y][z][a]->ypos,
-							entitylist[x][y][z][a]->zpos,
-							entitylist[x][y][z][a]->yang,
-							entitycollisionmesh[entitylist[x][y][z][a]->type],0,1);
+							if(entitycollisionmesh[entitylist[x][y][z][a]->type] != NULL){
+								spherebumpmesh(playerxpos,playerypos,playerzpos,1.25,
+								entitylist[x][y][z][a]->xpos,
+								entitylist[x][y][z][a]->ypos,
+								entitylist[x][y][z][a]->zpos,
+								entitylist[x][y][z][a]->yang,
+								entitycollisionmesh[entitylist[x][y][z][a]->type],0,1);
+							}
 						}
 					}
 				}
