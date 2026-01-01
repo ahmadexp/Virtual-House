@@ -242,8 +242,10 @@ void TestApp::drawhud(){
 	if((target_x-target_offset<playerxpos)&&(target_x+target_offset>playerxpos)&&(target_y-target_offset<(playerypos))&&(target_y+target_offset>(playerypos))&&(target_z-target_offset<playerzpos)&&(target_z+target_offset>playerzpos)){
 		if(write_end){
 			write_end=0;
-			fprintf(pFile_2,"_______________________________________________________________________________________________________________________\n");
-			if(!start_motion)fprintf(pFile_2," Goal Accomplished with %2.2f meters traversing error and %2.2f seconds ellapsed time\n",elapseddist-expectdist,elapsedtime);
+			if (pFile_2) {
+				fprintf(pFile_2,"_______________________________________________________________________________________________________________________\n");
+				if(!start_motion)fprintf(pFile_2," Goal Accomplished with %2.2f meters traversing error and %2.2f seconds ellapsed time\n",elapseddist-expectdist,elapsedtime);
+			}
 		}
 		
 		// Setup text message
