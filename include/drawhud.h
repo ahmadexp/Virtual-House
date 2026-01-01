@@ -1,8 +1,13 @@
 void TestApp::drawhud(){
 
 	glViewport(0,0,(GLsizei)screenw,(GLsizei)screenh);
+    
+    if (!start_motion) {
+        printf("DEBUG: drawhud.h - drawhud() start\n");
+        fflush(stdout);
+    }
 
-	char temptext[100];
+	char temptext[512];
 	float x=-1+0.01/screenaspect;
 	float y=0.99;
 
