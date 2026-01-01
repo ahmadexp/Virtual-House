@@ -59,9 +59,9 @@ const char mediadir[] = "Media/";
 const char* logfilename="default.txt";
 const char* total_logfilename="total.txt";
 char logfilename_2[100];
-FILE * pFile;
-FILE * pFile_2;
-FILE * pFile_3;
+FILE * pFile = NULL;
+FILE * pFile_2 = NULL;
+FILE * pFile_3 = NULL;
 
 
 #include "generic.h"

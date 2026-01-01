@@ -526,6 +526,6 @@ void TestApp::setupgame(){
 
 	
 
-	glLightfv(GL_LIGHT0,GL_SPECULAR,light_specular0);
-
+	printf("DEBUG: setupgame() finished\n");
+	fflush(stdout);
 }
