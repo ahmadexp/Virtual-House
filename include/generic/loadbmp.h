@@ -44,8 +44,7 @@ GLuint loadbmp(char* filename,bool mipmap){
 
 	FILE	*fp = NULL;
 
-	printf("DEBUG: loadbmp() - opening '%s'\n", filename);
-	fflush(stdout);
+
 	
 	fp = fopen(filename,"rb");  // FIXED: use "rb" for binary mode!
 
@@ -77,8 +76,7 @@ GLuint loadbmp(char* filename,bool mipmap){
 		return 0;
 	}
 
-	printf("DEBUG: loadbmp() - Width=%u Height=%u BitCount=%u\n", Width, Height, BitCount);
-	fflush(stdout);
+
 
 	// Validate dimensions
 	if (Width == 0 || Height == 0 || Width > 8192 || Height > 8192) {
@@ -100,9 +98,7 @@ GLuint loadbmp(char* filename,bool mipmap){
 	int bytesPerPixel = BitCount / 8;
 	size_t imageSize = Width * Height * bytesPerPixel;
 	
-	printf("DEBUG: loadbmp() - allocating %zu bytes (%u x %u x %d)\n", 
-	       imageSize, Width, Height, bytesPerPixel);
-	fflush(stdout);
+
 
 	pPixels = new unsigned char[imageSize];
 	if (!pPixels) {
@@ -123,8 +119,7 @@ GLuint loadbmp(char* filename,bool mipmap){
 		return 0;
 	}
 	
-	printf("DEBUG: loadbmp() - read %zu bytes successfully, creating texture\n", bytesRead);
-	fflush(stdout);
+
 
 	GLuint texName;
 	glGenTextures(1,&texName);
@@ -159,8 +154,7 @@ GLuint loadbmp(char* filename,bool mipmap){
 			0,GL_BGRA,GL_UNSIGNED_BYTE,pPixels);
 	}
 
-	printf("DEBUG: loadbmp() - deleting buffer, returning texture %u\n", texName);
-	fflush(stdout);
+
 	delete [] pPixels;
 
 	return texName;

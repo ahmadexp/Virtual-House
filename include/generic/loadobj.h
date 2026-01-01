@@ -35,8 +35,6 @@ void loadobj(char* filename,float*& vertexarray,float*& texturearray,float*& nor
 		return;
 	}
 	
-	printf("DEBUG: loadobj() - loading '%s'\n", filename);
-	fflush(stdout);
 	
 	char temptext[500];
 	while(fscanf(fp, "%499s", temptext) == 1){

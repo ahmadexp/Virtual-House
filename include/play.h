@@ -27,49 +27,59 @@ void TestApp::play(float gamespeed){
 			screenfov-=.1;
 
 	//Control Latency
-	if(mpKey[FWInput::Channel_Key_L]->getBoolValue())
+	if(mpKey[FWInput::Channel_Key_L]->getBoolValue()){
 		if(latency<max_latency)
 			latency++;
+	}
 
-	if(mpKey[FWInput::Channel_Key_K]->getBoolValue())
+	if(mpKey[FWInput::Channel_Key_K]->getBoolValue()){
 		if(latency>0)
 			latency--;
+	}
 
 //	Textures on off
-	if(mpKey[FWInput::Channel_Key_3]->getBoolTrue())
+	if(mpKey[FWInput::Channel_Key_3]->getBoolTrue()){
 		if(usetextures==1){usetextures=0;}else{usetextures=1;}
+	}
 
 //	start the intro	
 #ifdef _WIN32
-	if((mpKey[FWInput::Channel_Key_S]->getBoolTrue())||(joystick.wButtons==256))
+	if((mpKey[FWInput::Channel_Key_S]->getBoolTrue())||(joystick.wButtons==256)){
 		if(start_motion==0){start_motion=1;tmpcamyang=camyang;start_time=elapsedtime;}
+	}
 #else
-	if(mpKey[FWInput::Channel_Key_S]->getBoolTrue())
+	if(mpKey[FWInput::Channel_Key_S]->getBoolTrue()){
 		if(start_motion==0){start_motion=1;tmpcamyang=camyang;start_time=elapsedtime;}
+	}
 #endif
 
 //  Quit by Q
 	if(mpKey[FWInput::Channel_Key_Q]->getBoolTrue()||mpKey[FWInput::Channel_Key_Escape]->getBoolTrue()) exit(0);
 
 //  Free camera on off
-	if(mpKey[FWInput::Channel_Key_M]->getBoolTrue())
+	if(mpKey[FWInput::Channel_Key_M]->getBoolTrue()){
 		if(freecamera==1){freecamera=0;}else{freecamera=1;}
+	}
 
 //  Show player on off
-	if(mpKey[FWInput::Channel_Key_P]->getBoolTrue())
+	if(mpKey[FWInput::Channel_Key_P]->getBoolTrue()){
 		if(showplayer==1){showplayer=0;}else{showplayer=1;}
+	}
 
 //  Auto exit on off
-	if(mpKey[FWInput::Channel_Key_E]->getBoolTrue())
+	if(mpKey[FWInput::Channel_Key_E]->getBoolTrue()){
 		if(autoexit==1){autoexit=0;}else{autoexit=1;}
+	}
 
 //	Show info
-	if(mpKey[FWInput::Channel_Key_I]->getBoolTrue())
+	if(mpKey[FWInput::Channel_Key_I]->getBoolTrue()){
 		if(showinfo==1){showinfo=0;}else{showinfo=1;}
+	}
 
 //	Use Joystick
-	if(mpKey[FWInput::Channel_Key_J]->getBoolTrue())
+	if(mpKey[FWInput::Channel_Key_J]->getBoolTrue()){
 		if(usejoystick==1){usejoystick=0;calibjoy=0;}else{usejoystick=1;calibjoy=0;}
+	}
 
 //	Run Joystick calibration
 	if(mpKey[FWInput::Channel_Key_C]->getBoolTrue())
@@ -80,8 +90,9 @@ void TestApp::play(float gamespeed){
 #endif
 
 //  Player hight
-	if(mpKey[FWInput::Channel_Key_H]->getBoolTrue())
+	if(mpKey[FWInput::Channel_Key_H]->getBoolTrue()){
 		if(playerhight<6){playerhight+=.1;}else{playerhight=3;}
+	}
 
 //	for(int gameloops=0; gameloops<2; gameloops++){
 

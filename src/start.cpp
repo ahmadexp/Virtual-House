@@ -218,17 +218,7 @@ bool TestApp::onInit(int argc, char **ppArgv){
 	
 	srand((int)time(NULL));
 	
-	printf("DEBUG: About to call bindcontrols()\n");
-	fflush(stdout);
-	
-	// Try-catch to debug bindcontrols crash
-	try {
-		bindcontrols();
-		printf("DEBUG: bindcontrols() succeeded\n");
-	} catch (...) {
-		printf("ERROR: bindcontrols() threw exception\n");
-	}
-	fflush(stdout);
+	bindcontrols();
 	gamestate=0;
 	lastgamestate=0;
 	menustate=0;
@@ -281,18 +271,14 @@ bool TestApp::onUpdate(){
 		setuptext();
 		gamestate=1;
 	}else if(gamestate==1){//loading screen for media
-		// printf("DEBUG: gamestate 1 - setting up media\n");
-		// fflush(stdout);
+		
 		setupbuttons();
 		setupmedia();
-		printf("DEBUG: setupmedia() returned\n");
-		fflush(stdout);
+		
 		skybox = new SKYBOX();
-		printf("DEBUG: skybox allocated\n");
-		fflush(stdout);
+		
 		skybox->Initialize();
-		printf("DEBUG: skybox initialized\n");
-		fflush(stdout);
+		
 		gamestate=3;
 	}else if(gamestate==3){//setup the game world
 		setupgame();

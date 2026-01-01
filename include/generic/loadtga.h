@@ -17,8 +17,7 @@ GLuint loadtga(char* filename,bool mipmap){
 	unsigned char	*pPixels = NULL;
 	FILE	*fp = NULL;
 
-	printf("DEBUG: loadtga() - about to open '%s'\n", filename);
-	fflush(stdout);
+
 	
 	fp = fopen(filename,"rb");  // FIXED: use "rb" for binary mode!
 	
@@ -28,8 +27,7 @@ GLuint loadtga(char* filename,bool mipmap){
 		return 0;
 	}
 	
-	printf("DEBUG: loadtga() - file opened successfully\n");
-	fflush(stdout);
+
 
 	// Read and validate header
 	size_t headerRead = fread(actualHeader,sizeof(unsigned char),12,fp);
@@ -51,8 +49,7 @@ GLuint loadtga(char* filename,bool mipmap){
 		return 0;
 	}
 	
-	printf("DEBUG: loadtga() - width=%u height=%u bpp=%u id=%u\n", width, height, bpp, id);
-	fflush(stdout);
+
 	
 	// Validate dimensions to prevent huge allocations
 	if (width == 0 || height == 0 || width > 8192 || height > 8192) {
@@ -74,8 +71,7 @@ GLuint loadtga(char* filename,bool mipmap){
 	int bytesPerPixel = bpp / 8;
 	size_t imageSize = width * height * bytesPerPixel;
 	
-	printf("DEBUG: loadtga() - allocating %zu bytes for image data\n", imageSize);
-	fflush(stdout);
+
 
 	// Allocate buffer for actual image data
 	unsigned char *rawPixels = new unsigned char[imageSize];
@@ -97,8 +93,7 @@ GLuint loadtga(char* filename,bool mipmap){
 		return 0;
 	}
 	
-	printf("DEBUG: loadtga() - read %zu bytes successfully\n", bytesRead);
-	fflush(stdout);
+
 	
 	// Convert to RGBA if needed
 	pPixels = new unsigned char[width * height * 4];
@@ -124,8 +119,7 @@ GLuint loadtga(char* filename,bool mipmap){
 	
 	delete [] rawPixels;
 	
-	printf("DEBUG: loadtga() - creating OpenGL texture\n");
-	fflush(stdout);
+
 
 	GLuint texName;
 	glPixelStorei(GL_UNPACK_ALIGNMENT,1);	
@@ -153,11 +147,9 @@ GLuint loadtga(char* filename,bool mipmap){
 #endif
 	}
 
-	printf("DEBUG: loadtga() - about to delete[] pPixels\n");
-	fflush(stdout);
+
 	delete [] pPixels;
-	printf("DEBUG: loadtga() - delete[] pPixels succeeded, returning texture %u\n", texName);
-	fflush(stdout);
+
 
 	return texName;
 
