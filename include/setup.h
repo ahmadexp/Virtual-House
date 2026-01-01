@@ -143,9 +143,7 @@ void TestApp::setupmedia(){
 			worldtilevertexcount[a],1.0);
 		
 		// CRITICAL FIX: Skip processing if file failed to load
-		if (worldtilevertexcount[a] == 0 || worldtilevertexarray[a][0] == NULL) {
-			printf("WARNING: Skipping tile %d - failed to load OBJ file\n", a);
-			fflush(stdout);
+
 			// Initialize all pointers to NULL for safety
 			for(int b=0; b<4; b++){
 				worldtilevertexarray[a][b] = NULL;
@@ -262,8 +260,6 @@ void TestApp::setupmedia(){
 		
 		// CRITICAL FIX: Skip processing if file failed to load
 		if (entityvertexcount[a] == 0 || entityvertexarray[a] == NULL) {
-			printf("WARNING: Skipping entity %d - failed to load OBJ file\n", a);
-			fflush(stdout);
 			// Initialize all pointers to NULL for safety
 			entityvertexarray[a] = NULL;
 			entitytexturearray[a] = NULL;
@@ -336,8 +332,6 @@ void TestApp::setupmedia(){
 
 	// CRITICAL FIX: Skip processing if file failed to load
 	if (playervertexcount == 0 || playervertexarray == NULL) {
-		printf("WARNING: Player mesh failed to load - skipping\n");
-		fflush(stdout);
 	} else {
 		//rig the texture coordinates
 		for(int b=0; b<playervertexcount/3; b++){

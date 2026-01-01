@@ -30,8 +30,6 @@ void loadobj(char* filename,float*& vertexarray,float*& texturearray,float*& nor
 	int facecount=0;
 	FILE* fp = fopen(filename, "r");
 	if (!fp) {
-		printf("ERROR: loadobj() - failed to open '%s'\n", filename);
-		fflush(stdout);
 		return;
 	}
 	

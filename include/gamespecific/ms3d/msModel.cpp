@@ -45,8 +45,6 @@ bool msModel::Load(const char *filename)
 	if (strncmp(id, "MS3D000000", 10) != 0)
 	{
 		fclose(fp);
-		printf("ERROR: msModel::Load() - invalid MS3D header\n");
-		// "This is not a valid MS3D file format!"
 		return false;
 	}
 
@@ -55,8 +53,6 @@ bool msModel::Load(const char *filename)
 	if (version != 4)
 	{
 		fclose(fp);
-		printf("ERROR: msModel::Load() - invalid version: %d\n", version);
-		// "This is not a valid MS3D file version!"
 		return false;
 	}
 
@@ -69,7 +65,6 @@ bool msModel::Load(const char *filename)
 	try {
 		m_vertices.resize(numVertices);
 	} catch (const std::exception& e) {
-		printf("ERROR: msModel::Load() - failed to resize m_vertices: %s\n", e.what());
 		fclose(fp);
 		return false;
 	}
@@ -90,7 +85,6 @@ bool msModel::Load(const char *filename)
 	try {
 		m_triangles.resize(numTriangles);
 	} catch (const std::exception& e) {
-		printf("ERROR: msModel::Load() - failed to resize m_triangles: %s\n", e.what());
 		fclose(fp);
 		return false;
 	}

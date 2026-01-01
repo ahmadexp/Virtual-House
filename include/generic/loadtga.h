@@ -22,8 +22,6 @@ GLuint loadtga(char* filename,bool mipmap){
 	fp = fopen(filename,"rb");  // FIXED: use "rb" for binary mode!
 	
 	if (!fp) {
-		printf("ERROR: loadtga() - failed to open '%s'\n", filename);
-		fflush(stdout);
 		return 0;
 	}
 	
@@ -32,8 +30,6 @@ GLuint loadtga(char* filename,bool mipmap){
 	// Read and validate header
 	size_t headerRead = fread(actualHeader,sizeof(unsigned char),12,fp);
 	if (headerRead != 12) {
-		printf("ERROR: loadtga() - failed to read header (got %zu bytes)\n", headerRead);
-		fflush(stdout);
 		fclose(fp);
 		return 0;
 	}
@@ -43,8 +39,6 @@ GLuint loadtga(char* filename,bool mipmap){
 	    fread(&height,sizeof(unsigned short),1,fp) != 1 ||
 	    fread(&bpp,sizeof(unsigned char),1,fp) != 1 ||
 	    fread(&id,sizeof(unsigned char),1,fp) != 1) {
-		printf("ERROR: loadtga() - failed to read image dimensions\n");
-		fflush(stdout);
 		fclose(fp);
 		return 0;
 	}
@@ -53,16 +47,12 @@ GLuint loadtga(char* filename,bool mipmap){
 	
 	// Validate dimensions to prevent huge allocations
 	if (width == 0 || height == 0 || width > 8192 || height > 8192) {
-		printf("ERROR: loadtga() - invalid dimensions: %ux%u\n", width, height);
-		fflush(stdout);
 		fclose(fp);
 		return 0;
 	}
 	
 	// Validate bpp
 	if (bpp != 24 && bpp != 32) {
-		printf("ERROR: loadtga() - unsupported bpp: %u (only 24 and 32 supported)\n", bpp);
-		fflush(stdout);
 		fclose(fp);
 		return 0;
 	}
@@ -76,8 +66,6 @@ GLuint loadtga(char* filename,bool mipmap){
 	// Allocate buffer for actual image data
 	unsigned char *rawPixels = new unsigned char[imageSize];
 	if (!rawPixels) {
-		printf("ERROR: loadtga() - failed to allocate %zu bytes\n", imageSize);
-		fflush(stdout);
 		fclose(fp);
 		return 0;
 	}
@@ -87,8 +75,6 @@ GLuint loadtga(char* filename,bool mipmap){
 	fclose(fp);
 	
 	if (bytesRead != imageSize) {
-		printf("ERROR: loadtga() - expected %zu bytes but read %zu\n", imageSize, bytesRead);
-		fflush(stdout);
 		delete [] rawPixels;
 		return 0;
 	}
@@ -98,8 +84,6 @@ GLuint loadtga(char* filename,bool mipmap){
 	// Convert to RGBA if needed
 	pPixels = new unsigned char[width * height * 4];
 	if (!pPixels) {
-		printf("ERROR: loadtga() - failed to allocate RGBA buffer\n");
-		fflush(stdout);
 		delete [] rawPixels;
 		return 0;
 	}

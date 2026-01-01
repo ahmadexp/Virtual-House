@@ -18,7 +18,6 @@ void loadms3d(char* filename,
 	outputarraysize = 0;
 	
 	if (!milkshapmodel.Load(filename)) {
-		printf("ERROR: loadms3d() - failed to load '%s'\n", filename);
 		return;
 	}
 	

@@ -49,8 +49,6 @@ GLuint loadbmp(char* filename,bool mipmap){
 	fp = fopen(filename,"rb");  // FIXED: use "rb" for binary mode!
 
 	if(fp==NULL) {
-		printf("ERROR: loadbmp() - failed to open '%s'\n", filename);
-		fflush(stdout);
 		return 0;
 	}
 
@@ -70,8 +68,6 @@ GLuint loadbmp(char* filename,bool mipmap){
 	    fread(&YPelsPerMeter,sizeof(int32_t),1,fp) != 1 ||
 	    fread(&ClrUsed,sizeof(uint32_t),1,fp) != 1 ||
 	    fread(&ClrImportant,sizeof(uint32_t),1,fp) != 1) {
-		printf("ERROR: loadbmp() - failed to read BMP header\n");
-		fflush(stdout);
 		fclose(fp);
 		return 0;
 	}
@@ -80,16 +76,12 @@ GLuint loadbmp(char* filename,bool mipmap){
 
 	// Validate dimensions
 	if (Width == 0 || Height == 0 || Width > 8192 || Height > 8192) {
-		printf("ERROR: loadbmp() - invalid dimensions: %ux%u\n", Width, Height);
-		fflush(stdout);
 		fclose(fp);
 		return 0;
 	}
 
 	// Validate BitCount
 	if (BitCount != 24 && BitCount != 32) {
-		printf("ERROR: loadbmp() - unsupported BitCount: %u (only 24 and 32 supported)\n", BitCount);
-		fflush(stdout);
 		fclose(fp);
 		return 0;
 	}
@@ -102,8 +94,6 @@ GLuint loadbmp(char* filename,bool mipmap){
 
 	pPixels = new unsigned char[imageSize];
 	if (!pPixels) {
-		printf("ERROR: loadbmp() - failed to allocate %zu bytes\n", imageSize);
-		fflush(stdout);
 		fclose(fp);
 		return 0;
 	}
@@ -113,8 +103,6 @@ GLuint loadbmp(char* filename,bool mipmap){
 	fclose(fp);
 	
 	if (bytesRead != imageSize) {
-		printf("ERROR: loadbmp() - expected %zu bytes but read %zu\n", imageSize, bytesRead);
-		fflush(stdout);
 		delete [] pPixels;
 		return 0;
 	}
