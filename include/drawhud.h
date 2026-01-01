@@ -3,13 +3,18 @@ void TestApp::drawhud(){
 	glViewport(0,0,(GLsizei)screenw,(GLsizei)screenh);
     
     if (!start_motion) {
-        printf("DEBUG: drawhud.h - drawhud() start\n");
+        printf("DEBUG: drawhud.h - drawhud() start (w=%d h=%d aspect=%.2f)\n", screenw, screenh, screenaspect);
         fflush(stdout);
     }
 
-	char temptext[512];
-	float x=-1+0.01/screenaspect;
+	char temptext[1024];
+    temptext[0] = 0;
+	float x = -1;
+    if (screenaspect > 0.001f) x += 0.01f / screenaspect;
+    else x += 0.01f;
 	float y=0.99;
+
+    if (!start_motion) { printf("DEBUG: drawhud.h - starting blocks\n"); fflush(stdout); }
 
 	if(showinfo){
 		switch(lang){
@@ -39,10 +44,11 @@ void TestApp::drawhud(){
 		//sprintf(temptext,"%s%d","joykey: ",temp);
 		//drawtext(x,y,(char*)temptext,1);y-=0.03;
 
-		sprintf(temptext,"%s","Developed by Ahmad Byagowi");
+		snprintf(temptext,sizeof(temptext),"%s","Developed by Ahmad Byagowi");
 		drawtext(x,y,(char*)temptext,1);y-=0.03;
 
-		sprintf(temptext,"%s%.2f","Elapsed time [sec]: ",elapsedtime-start_move_time);
+        if (!start_motion) { printf("DEBUG: drawhud.h - before time sprintf\n"); fflush(stdout); }
+		snprintf(temptext,sizeof(temptext),"%s%.2f","Elapsed time [sec]: ",elapsedtime-start_move_time);
 		drawtext(x,y,(char*)temptext,1);y-=0.03;
 
 		sprintf(temptext,"%s%.2f","Traversed distance [m]: ",elapseddist);
@@ -89,10 +95,16 @@ void TestApp::drawhud(){
 		}
 		sprintf(temptext,"%s%d %d %d %d %c %c","Judgment: ",(judge_res&0x08)>0,(judge_res&0x04)>0,(judge_res&0x02)>0,(judge_res&0x01)>0,targ_char,pos_char);
 		drawtext(x,y,(char*)temptext,1);y-=0.03;
-		sprintf(temptext,"%s%d","Indoor: ",indoor);
+		snprintf(temptext,sizeof(temptext),"%s%d","Indoor: ",indoor);
 		drawtext(x,y,(char*)temptext,1);y-=0.03;
-		sprintf(temptext,"%s%s,%s,%s","Log files: ",logfilename,logfilename_2,total_logfilename);
+
+        if (!start_motion) { printf("DEBUG: drawhud.h - before log sprintf\n"); fflush(stdout); }
+		snprintf(temptext,sizeof(temptext),"Log files: %s,%s,%s", 
+                 logfilename ? logfilename : "NULL", 
+                 logfilename_2, 
+                 total_logfilename ? total_logfilename : "NULL");
 		drawtext(x,y,(char*)temptext,1);y-=0.03;
+        if (!start_motion) { printf("DEBUG: drawhud.h - showinfo block end\n"); fflush(stdout); }
 		
 	}
 
@@ -209,6 +221,7 @@ void TestApp::drawhud(){
 		drawtext(x,y,(char*)temptext,2);y-=0.07;
 		sprintf(temptext,"%c",win_clue);
 		drawtext(x,y,(char*)temptext,2);
+        if (!start_motion) { printf("DEBUG: drawhud.h - targetwin/testmode block done\n"); fflush(stdout); }
 	}
 
 	
@@ -237,9 +250,11 @@ void TestApp::drawhud(){
 		target_y=(a_win_pos[1]*worldtilesize)-4;
 		target_z=(a_win_pos[2]*worldtilesize);
 	}
+    if (!start_motion) { printf("DEBUG: drawhud.h - target calculation done\n"); fflush(stdout); }
 
 
 	if((target_x-target_offset<playerxpos)&&(target_x+target_offset>playerxpos)&&(target_y-target_offset<(playerypos))&&(target_y+target_offset>(playerypos))&&(target_z-target_offset<playerzpos)&&(target_z+target_offset>playerzpos)){
+        if (!start_motion) { printf("DEBUG: drawhud.h - Goal reached condition true\n"); fflush(stdout); }
 		if(write_end){
 			write_end=0;
 			if (pFile_2) {
@@ -268,6 +283,7 @@ void TestApp::drawhud(){
 		// But in testmode showinfo is usually 0, so maybe we can draw it anyway? 
 		// For now, let's respect the user intent: pure test mode usually no UI.
 		if(!testmode) {
+            if (!start_motion) { printf("DEBUG: drawhud.h - before goal drawtext\n"); fflush(stdout); }
 			drawtext(x+0.08,0,(char*)temptext,5);
 		}
 
@@ -418,4 +434,5 @@ void TestApp::drawhud(){
 	
 	glPopMatrix();
 	*/
+    if (!start_motion) { printf("DEBUG: drawhud.h - exit\n"); fflush(stdout); }
 }
