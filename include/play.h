@@ -128,7 +128,7 @@ void TestApp::play(float gamespeed){
 				entitylist[x][y][z][e]->zpos,
 				playerxpos,playerypos,playerzpos)<3.25f){
 					delete entitylist[x][y][z][e];
-					if(e<entitycount[x][y][z]-1)for(int b=e;b<entitycount[x][y][z];b++)entitylist[x][y][z][b]=entitylist[x][y][z][b+1];
+					if(e<entitycount[x][y][z]-1)for(int b=e;b<entitycount[x][y][z]-1;b++)entitylist[x][y][z][b]=entitylist[x][y][z][b+1];
 					entitycount[x][y][z]-=1;
 					e--;
 					collectablesfound++;
@@ -184,8 +184,6 @@ void TestApp::play(float gamespeed){
 	judgment();
 
 	//Log file writer 
-	//Log file writer 
-	L_pos_char=pos_char; // Moved up to satisfy the diff matcher context if needed? No, L_pos_char used in logic.
 
     // GRANULAR DEBUGGING FOR CRASH
     // Only print once per second to avoid spam, or just print always immediately before crash?
