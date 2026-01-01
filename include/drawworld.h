@@ -9,12 +9,14 @@ void TestApp::drawworld(){
 	glEnableClientState(GL_VERTEX_ARRAY);
 	if(usetextures)glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
+	if(!start_motion) { printf("DEBUG: drawworld - skybox render\n"); fflush(stdout); }
 	if(usetextures)
 		skybox->Render(camyang*degreesinradian,camxang*degreesinradian);
 	else
 	glClearColor(0, 0.16, 0.35, 1);      // bakgournd sky color
 
 	//draw world
+	if(!start_motion) { printf("DEBUG: drawworld - loop start\n"); fflush(stdout); }
 	gameworldpolygons=0;
 	for(int x=highint(0,playerxgridpos-worldtileviewrange); x<lowint(worldgridsizex,playerxgridpos+worldtileviewrange+1); x++)
 		for(int y=highint(0,playerygridpos-worldtileviewrange); y<lowint(worldgridsizey,playerygridpos+worldtileviewrange+1); y++)
@@ -39,11 +41,12 @@ void TestApp::drawworld(){
 					gameworldpolygons+=worldtilevertexcount[a]/3;
 				}
 			}
-
+	if(!start_motion) { printf("DEBUG: drawworld - loop end\n"); fflush(stdout); }
 
 	if(usetextures)glBindTexture(GL_TEXTURE_2D,wireframetexture);
 
 	//draw player
+	if(!start_motion) { printf("DEBUG: drawworld - drawing player\n"); fflush(stdout); }
 	if(showplayer && playervertexarray != NULL){
 		playerms3dmodel.SetFrame(playerframe);
 		int vertnum=0;
