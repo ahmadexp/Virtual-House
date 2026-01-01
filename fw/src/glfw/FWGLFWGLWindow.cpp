@@ -47,14 +47,8 @@ FWGLFWGLWindow::FWGLFWGLWindow(int argc, char **ppArgv, const FWDisplayInfo &dis
 	: FWWindow(argc, ppArgv, dispInfo, startupInfo)
 	, mpWindow(NULL)
 {
-	printf("DEBUG: FWGLFWGLWindow constructor starting\n");
-	fflush(stdout);
-	
 	// Initialize GLFW
 	glfwSetErrorCallback(glfw_error_callback);
-	
-	printf("DEBUG: Calling glfwInit()\n");
-	fflush(stdout);
 	
 	if (!glfwInit()) {
 		fprintf(stderr, "Failed to initialize GLFW\n");
@@ -62,9 +56,6 @@ FWGLFWGLWindow::FWGLFWGLWindow(int argc, char **ppArgv, const FWDisplayInfo &dis
 		exit(EXIT_FAILURE);
 	}
 	
-	printf("DEBUG: GLFW initialized successfully\n");
-	fflush(stdout);
-
 	// Configure OpenGL context
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
@@ -82,9 +73,6 @@ FWGLFWGLWindow::FWGLFWGLWindow(int argc, char **ppArgv, const FWDisplayInfo &dis
 	int width = dispInfo.mWidth > 0 ? dispInfo.mWidth : 800;
 	int height = dispInfo.mHeight > 0 ? dispInfo.mHeight : 600;
 	
-	printf("DEBUG: Creating window: %dx%d, title='%s'\n", width, height, title);
-	fflush(stdout);
-	
 	mpWindow = glfwCreateWindow(width, height, title, NULL, NULL);
 	if (!mpWindow) {
 		fprintf(stderr, "Failed to create GLFW window\n");
@@ -93,9 +81,6 @@ FWGLFWGLWindow::FWGLFWGLWindow(int argc, char **ppArgv, const FWDisplayInfo &dis
 		exit(EXIT_FAILURE);
 	}
 	
-	printf("DEBUG: Window created successfully\n");
-	fflush(stdout);
-
 	// Make OpenGL context current
 	glfwMakeContextCurrent(mpWindow);
 	
@@ -123,29 +108,15 @@ FWGLFWGLWindow::FWGLFWGLWindow(int argc, char **ppArgv, const FWDisplayInfo &dis
 	// We'll handle this in extensions if needed
 	
 	// Initialize input system with window handle
-	printf("DEBUG: About to initialize FWInput\n");
-	fflush(stdout);
 	FWInput::init(mpWindow);
 	
-	printf("DEBUG: FWInput initialized\n");
-	fflush(stdout);
-	
 	// Initialize rest of application (calls FWApplication::onInit)
-	printf("DEBUG: About to call FWWindow::init()\n");
-	fflush(stdout);
 	FWWindow::init();
-	
-	printf("DEBUG: FWWindow::init() completed, mInit=%d\n", mInit);
-	fflush(stdout);
 	
 	// Call resize if initialization succeeded
 	// IMPORTANT: Use framebuffer size (pixels), not logical window size, for correct Retina rendering
 	if (mInit) {
-		printf("DEBUG: About to call resize(%d, %d)\n", fbWidth, fbHeight);
-		fflush(stdout);
 		resize(fbWidth, fbHeight);
-		printf("DEBUG: resize() completed\n");
-		fflush(stdout);
 	}
 	
 	// Store display info

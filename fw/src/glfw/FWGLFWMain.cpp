@@ -26,23 +26,16 @@ int main(int argc, char **ppArgv)
 		return 1;
 	}
 	
-	printf("DEBUG: Application found, creating window\n");
-	fflush(stdout);
-
 	// Create window
 	pWindow = new FWGLFWGLWindow(argc - 1, &ppArgv[1], 
 		pApp->getDisplayInfo(), 
 		pApp->getStartupInfo());
-
-	printf("DEBUG: Window created, entering main loop\n");
-	fflush(stdout);
 
 	// Main loop (matches Linux architecture)
 	bool IsRunning = true;
 	int frame = 0;
 	while(IsRunning)
 	{
-		// printf("DEBUG: Frame %d - about to update()\n", frame);
 		// fflush(stdout);
 		
 		// Call update and render
