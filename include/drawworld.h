@@ -1,5 +1,9 @@
 void TestApp::drawworld(){
 
+	if (!start_motion) {
+		printf("DEBUG: drawworld.h - drawworld() start\n");
+		fflush(stdout);
+	}
 	if(usetextures)glEnable(GL_TEXTURE_2D);								
 	if(usetextures)glBindTexture(GL_TEXTURE_2D,wireframetexture);		
 	glEnableClientState(GL_VERTEX_ARRAY);

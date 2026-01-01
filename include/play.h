@@ -570,5 +570,8 @@ void TestApp::play(float gamespeed){
 
 
 
-
+    if (!start_motion) {
+        printf("DEBUG: play.h - play() end\n");
+        fflush(stdout);
+    }
 }
