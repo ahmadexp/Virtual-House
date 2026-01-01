@@ -2,27 +2,22 @@ GLuint fonttexture;
 float fonttexturecoords[96][8];
 
 void setuptext(){
-	printf("DEBUG: setuptext() - building filename\n");
-	fflush(stdout);
+
 	
 	char filename[256];
 	sprintf(filename,"%s%s",mediadir,"font.tga");
 	
-	printf("DEBUG: setuptext() - about to loadtga('%s')\n", filename);
-	fflush(stdout);
+
 	
 	fonttexture=loadtga((char*)filename,0);
 	
-	printf("DEBUG: setuptext() - loadtga returned %u\n", fonttexture);
-	fflush(stdout);
+
 	
 
 
-	printf("DEBUG: setuptext() - entering loop\n");
-	fflush(stdout);
+
 	for(int y=0; y<6; y++)for(int x=0; x<16; x++){//setup the pixel positions
-		printf("DEBUG: setuptext() - loop y=%d x=%d index=%d\n", y, x, 16*y+x);
-		fflush(stdout);
+
  
 		fonttexturecoords[16*y+x][0]=x*32+1;
 		fonttexturecoords[16*y+x][1]=y*42+42-1;

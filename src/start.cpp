@@ -351,10 +351,10 @@ void TestApp::onRender(){
 		drawworld();
 		set2dcamera();
 		drawhud();
-		if (!start_motion) { printf("DEBUG: start.cpp - calling unset2dcamera()\n"); fflush(stdout); }
+
 		unset2dcamera();
 	}
-    if (!start_motion) { printf("DEBUG: start.cpp - onRender() end\n"); fflush(stdout); }
+
 
 }
 

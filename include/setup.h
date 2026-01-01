@@ -526,6 +526,4 @@ void TestApp::setupgame(){
 
 	
 
-	printf("DEBUG: setupgame() finished\n");
-	fflush(stdout);
 }

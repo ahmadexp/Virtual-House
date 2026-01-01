@@ -185,24 +185,7 @@ void TestApp::play(float gamespeed){
 
 	//Log file writer 
 
-    // GRANULAR DEBUGGING FOR CRASH
-    // Only print once per second to avoid spam, or just print always immediately before crash?
-    // Crash happens once. So printing is fine.
-    if (!start_motion) {
-        printf("DEBUG: play.h - !start_motion block entered\n");
-        fflush(stdout);
-        
-        if (pFile) {
-            printf("DEBUG: play.h - writing to pFile\n");
-            fflush(stdout);
-            fprintf(pFile,"%3.4f,%3.4f,%3.4f,%3.4f,%3.4f,%3.4f,%.2f,%.2f,%1d,%d,%d,%.2f\n",playerxpos,playerypos,playerzpos,camxang,camyang,camzang,elapseddist,expectdist,judge_res,targ_char,pos_char,elapsedtime-start_move_time);
-            printf("DEBUG: play.h - wrote to pFile\n");
-            fflush(stdout);
-        } else {
-             printf("DEBUG: play.h - pFile is NULL\n");
-             fflush(stdout);
-        }
-    }
+
 
 	if(start_log && pFile_2){
 		start_log=0;
@@ -214,22 +197,10 @@ void TestApp::play(float gamespeed){
 	}
 
 	if(L_pos_char!=pos_char){
-		if(!start_motion && pFile_2) {
-            printf("DEBUG: play.h - writing to pFile_2\n");
-            fflush(stdout);
-            fprintf(pFile_2,"      %2.2f      |     %1d      |      %1d      |     %1d      |        %1d        |      %c      |      %c       |    %2.2f\n",elapseddist,(judge_res>>3)&0x01,(judge_res>>2)&0x01,(judge_res>>1)&0x01,judge_res&0x01,targ_char,pos_char,elapsedtime);
-            printf("DEBUG: play.h - wrote to pFile_2\n");
-            fflush(stdout);
-        }
+			fprintf(pFile_2,"      %2.2f      |     %1d      |      %1d      |     %1d      |        %1d        |      %c      |      %c       |    %2.2f\n",elapseddist,(judge_res>>3)&0x01,(judge_res>>2)&0x01,(judge_res>>1)&0x01,judge_res&0x01,targ_char,pos_char,elapsedtime);
 
 		if(!((judge_res>>3)&0x01))
-			if(!start_motion && pFile_3) {
-                 printf("DEBUG: play.h - writing to pFile_3\n");
-                 fflush(stdout);
-                 fprintf(pFile_3,"%2d,%2d,%1d,%1d,%1d,%2.2f,%2.2f\n",targ_char,pos_char,(judge_res>>2)&0x01,(judge_res>>1)&0x01,judge_res&0x01,elapseddist,elapsedtime);
-                 printf("DEBUG: play.h - wrote to pFile_3\n");
-                 fflush(stdout);
-            }
+				fprintf(pFile_3,"%2d,%2d,%1d,%1d,%1d,%2.2f,%2.2f\n",targ_char,pos_char,(judge_res>>2)&0x01,(judge_res>>1)&0x01,judge_res&0x01,elapseddist,elapsedtime);
 	}
     
     L_pos_char=pos_char;
@@ -569,8 +540,5 @@ void TestApp::play(float gamespeed){
 
 
 
-    if (!start_motion) {
-        printf("DEBUG: play.h - play() end\n");
-        fflush(stdout);
-    }
+
 }
