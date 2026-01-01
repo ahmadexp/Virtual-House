@@ -117,6 +117,7 @@ void TestApp::play(float gamespeed){
 	for(int y=highint(0,playerygridpos-worldtileviewrange); y<lowint(worldgridsizey,playerygridpos+worldtileviewrange+1); y++)
 	for(int z=highint(0,playerzgridpos-worldtileviewrange); z<lowint(worldgridsizez,playerzgridpos+worldtileviewrange+1); z++)
 	for(int e=0; e<entitycount[x][y][z]; e++){
+		if (entitylist[x][y][z][e] == NULL) continue;
 		if(entitylist[x][y][z][e]->type==entitytype_disccartridge){
 			entitylist[x][y][z][e]->xang+=entitylist[x][y][z][e]->xangmov*gamespeed;
 			entitylist[x][y][z][e]->yang+=entitylist[x][y][z][e]->yangmov*gamespeed;

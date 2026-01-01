@@ -53,16 +53,22 @@ void TestApp::drawworld(){
 		int numGroups = playerms3dmodel.GetNumGroups();
 		for (int i = 0; i < numGroups; i++){
 			ms3d_group_t *group = playerms3dmodel.GetGroup(i);
-			for (size_t j = 0; j < group->triangleIndices.size(); j++){
-				ms3d_triangle_t *triangle = playerms3dmodel.GetTriangle(group->triangleIndices[j]);
-				for (int v = 0; v < 3; v++){
-					ms3d_vertex_t *playervertex = playerms3dmodel.GetVertex(triangle->vertexIndices[v]);
-					float pos[3];
-					playerms3dmodel.TransformVertex(playervertex,pos);
-					playervertexarray[vertnum*3+0]=pos[0]*0.05;
-					playervertexarray[vertnum*3+1]=pos[1]*0.05;
-					playervertexarray[vertnum*3+2]=pos[2]*0.05;
-					vertnum+=1;
+			if (group) {
+				for (size_t j = 0; j < group->triangleIndices.size(); j++){
+					ms3d_triangle_t *triangle = playerms3dmodel.GetTriangle(group->triangleIndices[j]);
+					if (triangle) {
+						for (int v = 0; v < 3; v++){
+							ms3d_vertex_t *playervertex = playerms3dmodel.GetVertex(triangle->vertexIndices[v]);
+							if (playervertex) {
+								float pos[3];
+								playerms3dmodel.TransformVertex(playervertex,pos);
+								playervertexarray[vertnum*3+0]=pos[0]*0.05;
+								playervertexarray[vertnum*3+1]=pos[1]*0.05;
+								playervertexarray[vertnum*3+2]=pos[2]*0.05;
+								vertnum+=1;
+							}
+						}
+					}
 				}
 			}
 		}
@@ -85,6 +91,11 @@ void TestApp::drawworld(){
 	for(int y=highint(0,playerygridpos-worldtileviewrange); y<lowint(worldgridsizey,playerygridpos+worldtileviewrange+1); y++)
 	for(int z=highint(0,playerzgridpos-worldtileviewrange); z<lowint(worldgridsizez,playerzgridpos+worldtileviewrange+1); z++)
 	for(int a=0; a<entitycount[x][y][z]; a++){
+		if (entitylist[x][y][z][a] == NULL) continue;
+		
+		int type = entitylist[x][y][z][a]->type;
+		if (type < 0 || type >= entitytypecount) continue;
+
 		glPushMatrix();
 		glTranslatef(
 			entitylist[x][y][z][a]->xpos,
@@ -94,7 +105,6 @@ void TestApp::drawworld(){
 		glRotatef(entitylist[x][y][z][a]->yang*degreesinradian,0,1,0);
 		glRotatef(entitylist[x][y][z][a]->zang*degreesinradian,0,0,1);
 		
-		int type = entitylist[x][y][z][a]->type;
 		if (entityvertexarray[type] != NULL) {
 			glVertexPointer(3,GL_FLOAT,0,entityvertexarray[type]);
 			if(usetextures)glTexCoordPointer(2,GL_FLOAT,0,entitytexturearray[type]);

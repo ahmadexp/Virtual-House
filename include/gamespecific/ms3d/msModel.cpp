@@ -13,7 +13,7 @@
 ///////////////////////////////////////////////////////////////////////
 #include "msModel.h"
 #include "mathlib.h"
-#include <stdio.h>
+#include <stdio.h> 
 #include <stdlib.h>
 #include <cstring>
 
@@ -398,6 +398,9 @@ int msModel::GetNumGroups() const
 
 ms3d_group_t *msModel::GetGroup(int index)
 {
+	if (index < 0 || index >= (int) m_groups.size())
+		return NULL;
+
 	return &m_groups[index];
 }
 
@@ -408,6 +411,9 @@ int msModel::GetNumTriangles() const
 
 ms3d_triangle_t *msModel::GetTriangle(int index)
 {
+	if (index < 0 || index >= (int) m_triangles.size())
+		return NULL;
+
 	return &m_triangles[index];
 }
 
@@ -418,6 +424,9 @@ int msModel::GetNumVertices() const
 
 ms3d_vertex_t *msModel::GetVertex(int index)
 {
+	if (index < 0 || index >= (int) m_vertices.size())
+		return NULL;
+
 	return &m_vertices[index];
 }
 
@@ -428,6 +437,9 @@ int msModel::GetNumMaterials() const
 
 ms3d_material_t *msModel::GetMaterial(int index)
 {
+	if (index < 0 || index >= (int) m_materials.size())
+		return NULL;
+
 	return &m_materials[index];
 }
 
@@ -438,6 +450,9 @@ int msModel::GetNumJoints() const
 
 ms3d_joint_t *msModel::GetJoint(int index)
 {
+	if (index < 0 || index >= (int) m_joints.size())
+		return NULL;
+
 	return &m_joints[index];
 }
 
