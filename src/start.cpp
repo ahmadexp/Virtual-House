@@ -353,6 +353,7 @@ void TestApp::onRender(){
 		drawhud();
 		unset2dcamera();
 	}
+    if (!start_motion) { printf("DEBUG: start.cpp - onRender() end\n"); fflush(stdout); }
 
 }
 

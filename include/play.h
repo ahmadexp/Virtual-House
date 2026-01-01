@@ -141,7 +141,7 @@ void TestApp::play(float gamespeed){
 			entitylist[x][y][z][e]->ypos+=entitylist[x][y][z][e]->yposmov*gamespeed;
 			if(entitylist[x][y][z][e]->yposmov>0){
 				if(entitylist[x][y][z][e]->ypos>y*worldtilesize+0.5*worldtilesize
-				&& entitycount[x][y+1][z]<maxentities){
+				&& y+1 < worldgridsizey && entitycount[x][y+1][z]<maxentities){
 					entitylist[x][y+1][z][(int)entitycount[x][y+1][z]]=entitylist[x][y][z][e];
 					entitycount[x][y+1][z]+=1;
 					removeentityfromlist(x,y,z,e);
@@ -153,7 +153,7 @@ void TestApp::play(float gamespeed){
 				}
 			}else{
 				if(entitylist[x][y][z][e]->ypos<y*worldtilesize-0.5*worldtilesize
-				&& entitycount[x][y-1][z]<maxentities){
+				&& y>0 && entitycount[x][y-1][z]<maxentities){
 					entitylist[x][y-1][z][(int)entitycount[x][y-1][z]]=entitylist[x][y][z][e];
 					entitycount[x][y-1][z]+=1;
 					removeentityfromlist(x,y,z,e);

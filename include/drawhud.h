@@ -355,8 +355,9 @@ void TestApp::drawhud(){
 	sprintf(temptext,"%s%s","joint 1 name: ",(char*)playerms3dmodel.GetJoint(1)->name);
 	drawtext(x,y,(char*)temptext,2);y-=0.07;*/
 
-	glPushMatrix();
+/*	glPushMatrix();
 	glTranslatef(-0.65,-0.5,0);
+*/
 
 	//mini map texture coords
 	/*
@@ -434,5 +435,13 @@ void TestApp::drawhud(){
 	
 	glPopMatrix();
 	*/
-    if (!start_motion) { printf("DEBUG: drawhud.h - exit\n"); fflush(stdout); }
+    if (!start_motion) {
+        GLenum err = glGetError();
+        if (err != GL_NO_ERROR) {
+            printf("DEBUG: drawhud.h - exit WITH GL ERROR: 0x%x\n", err);
+        } else {
+            printf("DEBUG: drawhud.h - exit\n");
+        }
+        fflush(stdout);
+    }
 }
