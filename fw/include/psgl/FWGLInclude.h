@@ -5,6 +5,10 @@
 // stop some gl.h's including glext.h
 #define GL_GLEXT_LEGACY
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #ifdef __APPLE__
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
