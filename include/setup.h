@@ -143,7 +143,7 @@ void TestApp::setupmedia(){
 			worldtilevertexcount[a],1.0);
 		
 		// CRITICAL FIX: Skip processing if file failed to load
-
+		if (worldtilevertexcount[a] == 0 || worldtilevertexarray[a][0] == NULL) {
 			// Initialize all pointers to NULL for safety
 			for(int b=0; b<4; b++){
 				worldtilevertexarray[a][b] = NULL;

@@ -110,7 +110,6 @@ bool msModel::Load(const char *filename)
 	try {
 		m_groups.resize(numGroups);
 	} catch (const std::exception& e) {
-		printf("ERROR: msModel::Load() - failed to resize m_groups: %s\n", e.what());
 		fclose(fp);
 		return false;
 	}
@@ -127,7 +126,7 @@ bool msModel::Load(const char *filename)
 		try {
 			m_groups[i].triangleIndices.resize(numGroupTriangles);
 		} catch (const std::exception& e) {
-			printf("ERROR: msModel::Load() - failed to resize triangleIndices: %s\n", e.what());
+
 			fclose(fp);
 			return false;
 		}
@@ -145,7 +144,7 @@ bool msModel::Load(const char *filename)
 	try {
 		m_materials.resize(numMaterials);
 	} catch (const std::exception& e) {
-		printf("ERROR: msModel::Load() - failed to resize m_materials: %s\n", e.what());
+
 		fclose(fp);
 		return false;
 	}
@@ -187,7 +186,7 @@ bool msModel::Load(const char *filename)
 	try {
 		m_joints.resize(numJoints);
 	} catch (const std::exception& e) {
-		printf("ERROR: msModel::Load() - failed to resize m_joints: %s\n", e.what());
+
 		fclose(fp);
 		return false;
 	}
