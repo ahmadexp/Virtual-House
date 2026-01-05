@@ -93,6 +93,7 @@ runmeEGO.bat
 ## Known Issues
 
 - **Legacy audio**: Audio playback uses system commands (`afplay` on macOS) rather than a dedicated audio library.
+- It crashes after about 19 seconds on the Raspberry Pi (Raspbian) with "Segmentation Fault".
 
 ## License
 
